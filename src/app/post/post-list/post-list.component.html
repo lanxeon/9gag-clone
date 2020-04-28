@@ -1,0 +1,21 @@
+<div  *ngFor="let post of posts">
+<mat-card>
+    <mat-card-header>
+        <mat-card-title>{{ post.title }}</mat-card-title>
+        <mat-card-subtitle>Posted by: poster</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
+        <img mat-card-image [src]="post.contentPath" alt="Photo of a Shiba Inu">
+    </mat-card-content>
+    <mat-card-actions>
+    <button mat-stroked-button (click)="onUpvotePressed(post)">upvote</button>
+    <button mat-stroked-button (click)="onDownvotePressed(post)">downvote</button>
+    <button mat-stroked-button (click)="onCommentPressed(post)">Comment</button>
+    </mat-card-actions>
+    <mat-card-footer>
+        Upvotes: {{ post.upvotes }}, Downvotes: {{ post.downvotes }}, comments: {{ post.comments }}
+    </mat-card-footer>
+</mat-card>
+<mat-divider></mat-divider>
+</div>

@@ -1,0 +1,21 @@
+<mat-card>
+    <mat-spinner *ngIf = "isLoading"></mat-spinner>
+    <form (submit) = "onAddPost()" [formGroup]="form" *ngIf = "!isLoading">
+        <mat-form-field [hideRequiredMarker]="true"> 
+            <mat-label color="accent">Enter Post Title</mat-label>
+            <textarea matInput  cdkTextareaAutosize rows="1" formControlName="title"  name = "title" type="text" required></textarea>
+            <mat-error *ngIf="form.get('title').invalid">Enter Title</mat-error>
+        </mat-form-field>
+        <div class="btn-container" *ngIf="!imgPreview">
+            <button mat-stroked-button (click) = "fileInput.click()" type="button" color="accent">Upload Image</button>
+            <input type="file" #fileInput (change) = "onImagePicked($event)">
+        </div>
+        <div class="img-preview" *ngIf="imgPreview && imgPreview !== '' && form.get('image').valid">
+            <img [src] = "imgPreview" [alt] = "form.value.title">
+        </div>
+        <div class="action-row">
+            <button mat-raised-button color = "accent" type = "submit">Upload Post</button>
+            <button mat-stroked-button color="warn" type="reset" (click)="onReset()">Reset</button>
+        </div>
+    </form>
+</mat-card>

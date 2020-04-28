@@ -1,0 +1,44 @@
+mat-card {
+    width: 70%;
+    margin: 0 auto;
+    background-color: #262626;
+}
+
+mat-form-field, textarea {
+    width: 100%;
+}
+
+mat-spinner {
+    margin: auto;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+.img-preview {
+    width: 80%;
+    margin: 1rem auto;
+}
+
+.img-preview img {
+    position: relative;
+    max-width: 100%;
+    min-width: 75%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.btn-container {
+    margin: 1rem auto;
+    width: fit-content;
+}
+
+.action-row {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.action-row button {
+    margin-left: 1rem;
+}
