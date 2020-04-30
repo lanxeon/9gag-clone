@@ -1,8 +1,21 @@
 const express = require('express');
 const bp = require('body-parser');
 const path = require('path');
+const mongoose = require('mongoose');
+
+const userRouter = require('./routes/userRoutes');
+const postsRouter = require('./routes/postsRoutes');
 
 const app = express();
+mongoose.connect("mongodb+srv://lanxion:Theandre2131@cluster0-e3flj.mongodb.net/node-angular?retryWrites=true&w=majority",
+                        {useNewUrlParser: true, useUnifiedTopology: true})
+    .then(() => {
+        console.log("mongoDB connection successful");
+    })
+    .catch(() => {
+        console.log("mongoDB connection failed");
+    });
+
 
 //body-parser middleware
 app.use(bp.json());
@@ -22,5 +35,8 @@ app.use((req,res,next) => {
 
     next();
 });
+
+app.use('/posts', postsRouter);
+app.use('/user', userRouter);
 
 module.exports = app;

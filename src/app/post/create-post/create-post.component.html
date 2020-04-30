@@ -6,7 +6,7 @@
             <textarea matInput  cdkTextareaAutosize rows="1" formControlName="title"  name = "title" type="text" required></textarea>
             <mat-error *ngIf="form.get('title').invalid">Enter Title</mat-error>
         </mat-form-field>
-        <div class="btn-container" *ngIf="!imgPreview">
+        <div class="btn-container" *ngIf="!imgPreview || form.get('image').invalid">
             <button mat-stroked-button (click) = "fileInput.click()" type="button" color="accent">Upload Image</button>
             <input type="file" #fileInput (change) = "onImagePicked($event)">
         </div>

@@ -2,8 +2,12 @@ export interface Post {
     _id: string,
     title: string,
     contentPath: string,
-    upvotes: number,
-    downvotes: number,
-    comments: number,
-    poster: string
-}
+    count: {
+        upvotes: number,
+        downvotes: number,
+        comments: number
+    },
+    upvotes: [{upvoter: string}]
+    posterId: string,
+    posterUsn: string
+};

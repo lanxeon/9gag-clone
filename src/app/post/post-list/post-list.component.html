@@ -1,21 +1,36 @@
 <div  *ngFor="let post of posts">
-<mat-card>
+<mat-card *ngIf="!isLoading">
     <mat-card-header>
+        <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
         <mat-card-title>{{ post.title }}</mat-card-title>
-        <mat-card-subtitle>Posted by: poster</mat-card-subtitle>
+        <mat-card-subtitle>Posted by: {{post.posterUsn}}</mat-card-subtitle>
     </mat-card-header>
+    <!-- <mat-card-content>
+        <img mat-card-image [src]="post.contentPath" [alt]="post.title">
+    </mat-card-content> -->
+    <img mat-card-image [src]="post.contentPath" [alt]="post.title">
     <mat-card-content>
-        <!-- <img mat-card-image src="https://material.angular.io/assets/img/examples/shiba2.jpg" alt="Photo of a Shiba Inu"> -->
-        <img mat-card-image [src]="post.contentPath" alt="Photo of a Shiba Inu">
+        <p>{{post.count.upvotes - post.count.downvotes}} points &middot; {{ post.count.comments }} comments</p>
     </mat-card-content>
     <mat-card-actions>
-    <button mat-stroked-button (click)="onUpvotePressed(post)">upvote</button>
-    <button mat-stroked-button (click)="onDownvotePressed(post)">downvote</button>
-    <button mat-stroked-button (click)="onCommentPressed(post)">Comment</button>
+    <button mat-icon-button (click)="onUpvotePressed(post)">
+        <mat-icon>thumb_up_alt</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onDownvotePressed(post)">
+        <mat-icon>thumb_down_alt</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onCommentPressed(post)">
+        <mat-icon>comment</mat-icon>
+    </button>
+    <button mat-mini-fab color="warn" (click)="onDelete(post._id)" *ngIf="isAuthenticated && userId === post.posterId">
+        <mat-icon>delete</mat-icon>
+    </button>
     </mat-card-actions>
-    <mat-card-footer>
-        Upvotes: {{ post.upvotes }}, Downvotes: {{ post.downvotes }}, comments: {{ post.comments }}
-    </mat-card-footer>
+    <!-- <mat-card-footer>
+        <p class="">Upvotes: {{ post.count.upvotes }} Downvotes: {{ post.count.downvotes }} comments: {{ post.count.comments }}</p>
+    </mat-card-footer> -->
 </mat-card>
 <mat-divider></mat-divider>
 </div>
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+<p *ngIf="!posts || posts.length === 0 && !isLoading" class="mat-body-1" style="color: white; text-align: center;">No posts added yet</p>

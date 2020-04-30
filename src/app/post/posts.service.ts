@@ -1,6 +1,8 @@
+import { AuthService } from './../auth/auth.service';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject } from 'rxjs';
+import { Router } from '@angular/router';
 
 import { Post } from './post.model';
 
@@ -9,27 +11,69 @@ import { Post } from './post.model';
 })
 export class PostService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, public router: Router) { }
 
   posts: Post[] = [];
-  private postsUpdated = new Subject<{posts:Post[]}>();
+  private postsUpdated = new Subject<Post[]>();
 
   getPostsUpdatedSub = () => {
     return this.postsUpdated.asObservable();
   }
 
-  addPost = (title: string, imagePath: string) => {
-    let post: Post = {
-      _id: null,
-      title: title,
-      contentPath: imagePath,
-      upvotes: 0,
-      downvotes: 0,
-      comments: 0,
-      poster: null
-    };
-    this.posts.push(post);
-    console.log(this.posts);
-    this.postsUpdated.next({posts: [...this.posts]});
+  getPosts = (isAuthenticated: boolean, userId: string) => {
+    const httpRequest = this.http.get<{message: string, posts: Post[], modPosts: any}>("http://localhost:3000/posts");
+    console.log(isAuthenticated + " " + userId);
+    if(!isAuthenticated)
+    {
+      httpRequest.subscribe(payload => {
+        console.log(payload);
+        const newPosts = [...payload.posts];
+        this.postsUpdated.next(newPosts);
+      });
+    }
+
+    else 
+    {
+      let paramString = `?userId=${userId}`;
+      this.http.get<{message: string, posts: Post[], modPosts: any}>("http://localhost:3000/posts" + paramString)
+      .subscribe(payload => {
+        console.log(payload);
+        const newPosts = [...payload.posts];
+        this.postsUpdated.next(newPosts);
+      });
+    }
   }
+
+  addPost = (title: string, image: File) => {
+    let post: FormData = new FormData();
+    post.append("title", title);
+    post.append("image", image, title);
+    this.http.post<{message: string, post: Post}>("http://localhost:3000/posts", post)
+      .subscribe(payload => {
+        this.router.navigate(['/']);
+      });
+    // this.postsUpdated.next({posts: [...this.posts]});
+  }
+
+  deletePost = (id: string) =>
+  {
+    return this.http.delete("http://localhost:3000/posts/" + id);
+  }
+
+  addUpvote = (id: string) => 
+  {
+    this.http.post("http://localhost:3000/posts/upvote/" + id, {lol: "nothing"}).subscribe(payload =>
+    {
+      console.log(payload);
+    });
+  }
+
+  addDownvote = (id: string) => 
+  {
+    this.http.post("http://localhost:3000/posts/downvote/" + id, {lol: "nothing"}).subscribe(payload =>
+    {
+      console.log(payload);
+    });
+  }
+
 }

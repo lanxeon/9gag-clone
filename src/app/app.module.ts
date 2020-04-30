@@ -12,18 +12,22 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatDialogModule} from '@angular/material/dialog';
-import {MatDividerModule} from '@angular/material/divider';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatIconModule} from '@angular/material/icon';
 
+//Self defined imports
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreatePostComponent } from './post/create-post/create-post.component';
 import { HeaderComponent } from './header/header.component';
-import { MatFormField } from '@angular/material/form-field';
 import { CommentListComponent } from './Comment/comment-list/comment.component';
 import { CreateCommentComponent } from './comment/create-comment/create-comment.component';
 import { PostListComponent } from './post/post-list/post-list.component';
+import { LoginComponent } from './auth/login/login.component';
+import { SignupComponent } from './auth/signup/signup.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 
 @NgModule({
@@ -33,7 +37,9 @@ import { PostListComponent } from './post/post-list/post-list.component';
     HeaderComponent,
     CommentListComponent,
     CreateCommentComponent,
-    PostListComponent
+    PostListComponent,
+    LoginComponent,
+    SignupComponent
   ],
   imports: [
     BrowserModule,
@@ -45,13 +51,14 @@ import { PostListComponent } from './post/post-list/post-list.component';
     MatInputModule,
     MatProgressSpinnerModule,
     MatDividerModule,
+    MatIconModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule
   ],
-  providers: [],
+  providers: [
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { 
-  imgLink = "https://thumbs.dreamstime.com/b/beautiful-dandelion-flower-flying-feathers-colorful-bokeh-background-macro-shot-summer-nature-scene-beautiful-dandelion-147400154.jpg";
-}
+export class AppModule { }

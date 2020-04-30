@@ -3,3 +3,19 @@ mat-card {
     margin: 1rem auto;
     background-color: #262626;
 }
+
+mat-spinner {
+    margin: 1rem auto;
+}
+
+.spacer {
+    flex: 1 1 auto;
+}
+
+button {
+    margin-right: 1rem;
+}
+
+.liked {
+    color: cyan;
+}

@@ -46,7 +46,7 @@ export class CreatePostComponent implements OnInit {
       return console.log("not valid");
     
     // this.postService.addPost(this.form.value.title, this.form.value.image);
-    this.postService.addPost(this.form.value.title, this.imgPreview);
+    this.postService.addPost(this.form.value.title, this.form.value.image);
   }
 
   onReset = () => {
