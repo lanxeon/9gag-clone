@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.post('/create', auth, (req, res, next) => {
     
-    console.log(JSON.stringify(req.headers));
     const comment = new Comment({
         content: req.body.content,
         count: {

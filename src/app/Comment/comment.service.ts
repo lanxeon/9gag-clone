@@ -22,17 +22,12 @@ export class CommentService {
 
   addComment = (content: string, postId: string) =>
   {
-    let form: FormData = new FormData();
-    form.append("content", content);
-    form.append("postId", postId);
+    let body = {
+      content: content,
+      postId: postId
+    };
 
-    const httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json'
-      })
-    }
-
-    this.http.post<{message: string, comment: Comment}>("http://localhost:3000/comments/create", form)
+    this.http.post<{message: string, comment: Comment}>("http://localhost:3000/comments/create", body)
     .subscribe(payload => {
       const comment = payload.comment;
       this.comments.push(comment);
