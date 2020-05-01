@@ -175,6 +175,23 @@ router.get('', (req, res, next) => {
                 modifiedPosts: newModifiedPosts
                }); 
             });
+            return;
+    }
+
+    else 
+    {
+        query.then((documents) => {
+            queryData = documents;
+            return Post.countDocuments();
+            }).then(count => {
+                res.status(200).json({
+                    message: 'Fetched posts!',
+                    posts: queryData,
+                    count: count
+            });
+            }).catch( err => {
+                res.status(500).json({message: "Failed to fetch posts"});
+            });
     }
 });
 
@@ -183,7 +200,6 @@ router.get('', (req, res, next) => {
 //for deleting a post
 router.delete('/:id', auth, (req, res, next) => {
     Post.deleteOne({_id: req.params.id, posterId: req.userData.userId}).then(result => {
-    // Post.deleteOne({_id: req.params.id}).then(result => {
         if(result.n > 0)
         {
         console.log("deleted on server side!");

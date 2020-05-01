@@ -21,12 +21,11 @@ export class PostService {
   }
 
   getPosts = (isAuthenticated: boolean, userId: string) => {
-    const httpRequest = this.http.get<{message: string, posts: Post[], modPosts: any}>("http://localhost:3000/posts");
-    console.log(isAuthenticated + " " + userId);
+    const httpRequest = this.http.get<{message: string, posts: Post[], modPosts: Post[] | number}>("http://localhost:3000/posts");
+    
     if(!isAuthenticated)
     {
       httpRequest.subscribe(payload => {
-        console.log(payload);
         const newPosts = [...payload.posts];
         this.postsUpdated.next(newPosts);
       });
@@ -37,7 +36,6 @@ export class PostService {
       let paramString = `?userId=${userId}`;
       this.http.get<{message: string, posts: Post[], modifiedPosts: Post[]}>("http://localhost:3000/posts" + paramString)
       .subscribe(payload => {
-        // const newPosts = [...payload.posts];
         const newPosts = [...payload.modifiedPosts];
         this.postsUpdated.next(newPosts);
       });

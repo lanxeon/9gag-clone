@@ -15,14 +15,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDividerModule } from '@angular/material/divider';
-import {MatIconModule} from '@angular/material/icon';
+import { MatIconModule } from '@angular/material/icon';
+import { MatListModule } from '@angular/material/list';
+import { MatMenuModule } from '@angular/material/menu';
 
 //Self defined imports
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { CreatePostComponent } from './post/create-post/create-post.component';
 import { HeaderComponent } from './header/header.component';
-import { CommentListComponent } from './Comment/comment-list/comment.component';
+import { CommentListComponent } from './comment/comment-list/comment-list.component';
 import { CreateCommentComponent } from './comment/create-comment/create-comment.component';
 import { PostListComponent } from './post/post-list/post-list.component';
 import { LoginComponent } from './auth/login/login.component';
@@ -52,6 +54,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     MatProgressSpinnerModule,
     MatDividerModule,
     MatIconModule,
+    MatListModule,
+    MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule

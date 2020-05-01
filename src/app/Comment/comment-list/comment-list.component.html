@@ -1,0 +1,25 @@
+<mat-menu #appMenu="matMenu">
+  <button mat-menu-item>Edit</button>
+  <button mat-menu-item>Delete</button>
+</mat-menu>
+<mat-list>
+    <mat-list-item *ngFor="let comment of comments">
+      <img matListAvatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+      <div matLine>
+        <span> {{comment.commenterUsername}} </span>
+        <button mat-icon-button [matMenuTriggerFor]="appMenu" class="right">
+          <mat-icon>more_vert</mat-icon>
+        </button>
+      </div>
+      <p matLine>
+        <span> {{comment.content}} </span>
+      </p>
+      <p matLine>
+        <button mat-icon-button>
+            <mat-icon>thumb_up_alt</mat-icon>
+        </button> 
+        <span>{{comment.count.upvotes}}</span>
+      </p>
+      <mat-divider></mat-divider>
+    </mat-list-item>
+  </mat-list>

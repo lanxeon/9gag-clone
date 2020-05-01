@@ -1,7 +1,12 @@
 export interface Comment {
     _id: string,
     content: string,
-    poster: string,
-    posterImgPath: string,
-    post: string
+    count: {
+        upvotes: number,
+        downvotes: number,
+        replies: number
+    },
+    post: string,
+    commenterId: string,
+    commenterUsername: string
 }

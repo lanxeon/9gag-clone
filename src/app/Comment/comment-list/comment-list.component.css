@@ -1,0 +1,17 @@
+mat-list {
+    margin: 1rem auto;
+    width: 90%;
+}
+
+mat-icon {
+    font-size: 1.2rem;
+}
+
+mat-list-item {
+    margin: 0.5rem auto;
+}
+
+.right {
+    position: absolute;
+    right: 0;
+}

@@ -1,1 +1,16 @@
-<p>create-comment works!</p>
+<mat-list>
+    <mat-list-item>
+        <img matListAvatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+        <mat-form-field matLine>
+            <mat-label matLine color="primary">Enter a comment</mat-label>
+            <textarea matLine matInput cdkTextareaAutosize rows="2" [(ngModel)]="commentInput"></textarea>
+        </mat-form-field>
+        <div matLine class="button-row">
+            <button mat-raised-button color="accent" (click)="onAddComment()">SEND</button>
+            <button mat-stroked-button color="warn">CANCEL</button> 
+        </div>
+        <mat-divider></mat-divider>
+    </mat-list-item>
+</mat-list>
+<p class="mat-body-2 info">Comments</p>
+<app-comment-list></app-comment-list>

@@ -35,56 +35,72 @@ export class PostListComponent implements OnInit, OnDestroy {
     this.postSubs.unsubscribe();
   }
 
+
   posts: Post[];
   private postSubs: Subscription;
   isLoading = false;
   isAuthenticated: boolean;
   userId: string;
 
+
   onUpvotePressed = (post: Post) => {
-    this.postService.addUpvote(post._id);
-    
-    if(!post.voteStatus)
+    if(this.isAuthenticated)
+    {
+      this.postService.addUpvote(post._id);
+      
+      if(!post.voteStatus)
+        {
+          post.count.upvotes += 1;
+          post.voteStatus = "upvoted";
+        }
+      else if(post.voteStatus === "upvoted")
       {
-        post.count.upvotes += 1;
-        post.voteStatus = "upvoted";
+        post.voteStatus = null;
+        post.count.upvotes -= 1;
       }
-    else if(post.voteStatus === "upvoted")
-    {
-      post.voteStatus = null;
-      post.count.upvotes -= 1;
+      else
+      {
+        post.voteStatus = "upvoted";
+        post.count.downvotes -= 1;
+        post.count.upvotes += 1;
+      }
     }
-    else
-    {
-      post.voteStatus = "upvoted";
-      post.count.downvotes -= 1;
-      post.count.upvotes += 1;
-    }
+
+    else alert("you need to be signed up first hoe");
   }
+
 
   onDownvotePressed = (post: Post) => {
-    this.postService.addDownvote(post._id);
+    if(this.isAuthenticated)
+    {
+      this.postService.addDownvote(post._id);
 
-    if(!post.voteStatus)
+      if(!post.voteStatus)
+        {
+          post.count.downvotes += 1;
+          post.voteStatus = "downvoted";
+        }
+      else if(post.voteStatus === "downvoted")
       {
-        post.count.downvotes += 1;
-        post.voteStatus = "downvoted";
+        post.voteStatus = null;
+        post.count.downvotes -= 1;
       }
-    else if(post.voteStatus === "downvoted")
-    {
-      post.voteStatus = null;
-      post.count.downvotes -= 1;
+      else
+      {
+        post.voteStatus = "downvoted";
+        post.count.upvotes -= 1;
+        post.count.downvotes += 1;
+      }
     }
-    else
-    {
-      post.voteStatus = "downvoted";
-      post.count.upvotes -= 1;
-      post.count.downvotes += 1;
-    }
+
+    else alert("sign up first hoe");
   }
 
+
   onCommentPressed = (post: Post) => {
-    post.count.comments += 1;
+    if(this.isAuthenticated)
+      post.count.comments += 1;
+    else alert("login first in order to comment");
   }
 
   onDelete = (postId: string) =>

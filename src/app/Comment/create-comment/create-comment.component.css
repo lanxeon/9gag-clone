@@ -1,0 +1,30 @@
+mat-card {
+    width: 100%;
+    margin: 1rem auto;
+}
+
+.cmt-creat-container {
+    margin: 1rem auto;
+    width: 90%;
+}
+
+.info {
+    text-align: center;
+    color: white;
+}
+
+form {
+    width: 100%;
+}
+
+textarea, mat-form-field {
+    width: 100%;
+}
+
+.button-row {
+    text-align: end;
+}
+
+.button-row button {
+    margin: 0 0.5rem;
+}
