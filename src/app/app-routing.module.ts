@@ -13,7 +13,7 @@ const routes: Routes = [
   {path: 'create', component: CreatePostComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'comments', component: CreateCommentComponent }
+  {path: 'post/:id', component: CreateCommentComponent }
 ];
 
 @NgModule({

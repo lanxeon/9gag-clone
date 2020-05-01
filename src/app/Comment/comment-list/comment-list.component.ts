@@ -15,7 +15,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.commentsSub = this.commentService.getCommentSubs().subscribe(payload => {
-      console.log("reached here");
       this.comments = payload;
     });
   }
@@ -25,31 +24,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
   }
 
   commentsSub: Subscription;
-  comments: Comment[] = [
-    {
-      content: "hello",
-      count: {
-        upvotes: 0,
-        downvotes: 0,
-        replies: 0
-      },
-      post: "some post",
-      commenterId: "adsfsghsd",
-      commenterUsername: "lanxion",
-      _id: "asnkj282u398jc983"
-    },
-    {
-      content: "hello again",
-      count: {
-        upvotes: 4,
-        downvotes: 1,
-        replies: 3
-      },
-      post: "some post",
-      commenterId: "lanxion",
-      commenterUsername: "lanxion",
-      _id: "asnkj28nfd3hd8229"
-    }
-  ];
+  comments: Comment[] = [];
 
 }

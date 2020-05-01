@@ -5,6 +5,7 @@ const mongoose = require('mongoose');
 
 const userRouter = require('./routes/userRoutes');
 const postsRouter = require('./routes/postsRoutes');
+const commentRouter = require('./routes/commentRoutes');
 
 const app = express();
 mongoose.connect("mongodb+srv://lanxion:Theandre2131@cluster0-e3flj.mongodb.net/node-angular?retryWrites=true&w=majority",
@@ -38,5 +39,6 @@ app.use((req,res,next) => {
 
 app.use('/posts', postsRouter);
 app.use('/user', userRouter);
+app.use('/comments', commentRouter);
 
 module.exports = app;
