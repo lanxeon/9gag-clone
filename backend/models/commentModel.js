@@ -12,11 +12,3 @@ const commentSchema = mongoose.Schema({
 });
 
 module.exports = mongoose.model('Comment', commentSchema);
-
-// comments: [ 
-//     {
-//         commenter: {type: mongoose.Schema.Types.ObjectId, required:true, ref: "User"},
-//         upvotesCount: {type: Number, required: true },
-//         content: {type: String, required:true}
-//     }
-// ],

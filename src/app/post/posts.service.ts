@@ -35,10 +35,10 @@ export class PostService {
     else 
     {
       let paramString = `?userId=${userId}`;
-      this.http.get<{message: string, posts: Post[], modPosts: any}>("http://localhost:3000/posts" + paramString)
+      this.http.get<{message: string, posts: Post[], modifiedPosts: Post[]}>("http://localhost:3000/posts" + paramString)
       .subscribe(payload => {
-        console.log(payload);
-        const newPosts = [...payload.posts];
+        // const newPosts = [...payload.posts];
+        const newPosts = [...payload.modifiedPosts];
         this.postsUpdated.next(newPosts);
       });
     }

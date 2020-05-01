@@ -213,7 +213,6 @@ router.post('/upvote/:postId', auth, (req, res, next) => {
                     const currentUpvoteCount = result.post.count.upvotes;
                     const currentDownvoteCount = result.post.count.downvotes;
                     const type = result.type;
-                    console.log(currentUpvoteCount + " " + currentDownvoteCount + " " + type);
                     if(type === "downvote")
                         {
                             PostVote.findOneAndUpdate({_id: result._id}, { type: "upvote" }).then(result =>
@@ -268,7 +267,6 @@ router.post('/downvote/:postId', auth, (req, res, next) => {
                     const currentUpvoteCount = result.post.count.upvotes;
                     const currentDownvoteCount = result.post.count.downvotes;
                     const type = result.type;
-                    console.log(currentUpvoteCount + " " + currentDownvoteCount + " " + type);
                     if(type === "upvote")
                         {
                             PostVote.findOneAndUpdate({_id: result._id}, { type: "downvote" }).then(result =>

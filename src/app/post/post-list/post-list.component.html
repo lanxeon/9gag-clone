@@ -3,7 +3,7 @@
     <mat-card-header>
         <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
         <mat-card-title>{{ post.title }}</mat-card-title>
-        <mat-card-subtitle>Posted by: {{post.posterUsn}}</mat-card-subtitle>
+        <mat-card-subtitle>Posted by: {{ post.posterUsn }}</mat-card-subtitle>
     </mat-card-header>
     <!-- <mat-card-content>
         <img mat-card-image [src]="post.contentPath" [alt]="post.title">
@@ -13,10 +13,10 @@
         <p>{{post.count.upvotes - post.count.downvotes}} points &middot; {{ post.count.comments }} comments</p>
     </mat-card-content>
     <mat-card-actions>
-    <button mat-icon-button (click)="onUpvotePressed(post)">
+    <button mat-icon-button (click)="onUpvotePressed(post)" [ngClass]="post.voteStatus === 'upvoted'? 'clicked' : 'un-clicked'">
         <mat-icon>thumb_up_alt</mat-icon>
     </button>
-    <button mat-icon-button (click)="onDownvotePressed(post)">
+    <button mat-icon-button (click)="onDownvotePressed(post)"  [ngClass]="post.voteStatus === 'downvoted'? 'clicked' : 'un-clicked'">
         <mat-icon>thumb_down_alt</mat-icon>
     </button>
     <button mat-icon-button (click)="onCommentPressed(post)">
@@ -26,9 +26,6 @@
         <mat-icon>delete</mat-icon>
     </button>
     </mat-card-actions>
-    <!-- <mat-card-footer>
-        <p class="">Upvotes: {{ post.count.upvotes }} Downvotes: {{ post.count.downvotes }} comments: {{ post.count.comments }}</p>
-    </mat-card-footer> -->
 </mat-card>
 <mat-divider></mat-divider>
 </div>

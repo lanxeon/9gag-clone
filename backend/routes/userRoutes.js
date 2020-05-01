@@ -6,6 +6,8 @@ const User = require('../models/userModel');
 
 const router = express.Router();
 
+
+//for signing up
 router.post('/signup', (req, res, next) => {
     bcrypt.hash(req.body.password, 10).then( hash => {
         const user = new User({
@@ -25,10 +27,10 @@ router.post('/signup', (req, res, next) => {
 });
 
 
+//for logging in
 router.post('/login', (req, res, next) => {
     let userData;
     User.findOne( { email: req.body.email } ).then(user => {
-        console.log(user);
         if(!user) {
             return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
         }
@@ -52,7 +54,6 @@ router.post('/login', (req, res, next) => {
         return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
     });
 });
-
 
 
 module.exports = router;

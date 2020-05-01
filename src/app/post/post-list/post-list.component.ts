@@ -42,13 +42,45 @@ export class PostListComponent implements OnInit, OnDestroy {
   userId: string;
 
   onUpvotePressed = (post: Post) => {
-    post.count.upvotes += 1;
     this.postService.addUpvote(post._id);
+    
+    if(!post.voteStatus)
+      {
+        post.count.upvotes += 1;
+        post.voteStatus = "upvoted";
+      }
+    else if(post.voteStatus === "upvoted")
+    {
+      post.voteStatus = null;
+      post.count.upvotes -= 1;
+    }
+    else
+    {
+      post.voteStatus = "upvoted";
+      post.count.downvotes -= 1;
+      post.count.upvotes += 1;
+    }
   }
 
   onDownvotePressed = (post: Post) => {
-    post.count.downvotes += 1;
     this.postService.addDownvote(post._id);
+
+    if(!post.voteStatus)
+      {
+        post.count.downvotes += 1;
+        post.voteStatus = "downvoted";
+      }
+    else if(post.voteStatus === "downvoted")
+    {
+      post.voteStatus = null;
+      post.count.downvotes -= 1;
+    }
+    else
+    {
+      post.voteStatus = "downvoted";
+      post.count.upvotes -= 1;
+      post.count.downvotes += 1;
+    }
   }
 
   onCommentPressed = (post: Post) => {
