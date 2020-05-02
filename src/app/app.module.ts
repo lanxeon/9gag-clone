@@ -30,6 +30,7 @@ import { PostListComponent } from './post/post-list/post-list.component';
 import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
+import { SinglePostComponent } from './post/single-post/single-post.component';
 
 
 @NgModule({
@@ -41,7 +42,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
     CreateCommentComponent,
     PostListComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    SinglePostComponent
   ],
   imports: [
     BrowserModule,

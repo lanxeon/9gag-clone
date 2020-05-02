@@ -20,6 +20,7 @@ export class PostService {
     return this.postsUpdated.asObservable();
   }
 
+
   getPosts = (isAuthenticated: boolean, userId: string) => {
     const httpRequest = this.http.get<{message: string, posts: Post[], modPosts: Post[] | number}>("http://localhost:3000/posts");
     
@@ -42,6 +43,12 @@ export class PostService {
     }
   }
 
+
+  getPostById = (id: string) => {
+    return this.http.get<Post>("http://localhost:3000/posts/" + id);
+  }
+
+
   addPost = (title: string, image: File) => {
     let post: FormData = new FormData();
     post.append("title", title);
@@ -53,10 +60,12 @@ export class PostService {
     // this.postsUpdated.next({posts: [...this.posts]});
   }
 
+
   deletePost = (id: string) =>
   {
     return this.http.delete("http://localhost:3000/posts/" + id);
   }
+
 
   addUpvote = (id: string) => 
   {
@@ -65,6 +74,7 @@ export class PostService {
       console.log(payload);
     });
   }
+
 
   addDownvote = (id: string) => 
   {

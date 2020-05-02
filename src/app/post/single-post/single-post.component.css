@@ -1,14 +1,21 @@
 mat-card {
-    /* width: 70%; */
-    max-width: 640px;
+    max-width: 80%;
+    max-height: 90vh;
+    /* max-width: 640px; */
     margin: 1rem auto;
-    /* background-color: #1a1a1a; */
     background: transparent;
     box-shadow: none!important;
 }
 
+.content-img {
+    position: relative;
+    max-height: 100%;
+    max-width: 100%;
+    min-width: 320px;
+}
+
 mat-divider {
-    max-width: 700px;
+    /* max-width: 700px; */
     margin: 0 auto;
 }
 
@@ -30,11 +37,4 @@ button,a {
 
 .clicked {
     color: cyan;
-}
-
-.content-img {
-    position: relative;
-    max-height: 100%;
-    max-width: 100%;
-    min-width: 320px;
 }

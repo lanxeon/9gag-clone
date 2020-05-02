@@ -114,35 +114,9 @@ router.post('', auth, multer({storage: storage}).single("image") ,(req, res, nex
 
 
 
-// //Getting all posts
-// router.get('', (req, res, next) => {
-//     // const currentPage = +req.query.currentPage;
-//     // const pageSize = +req.query.pageSize;
-//     let query = Post.find();
-//     let queryData;
-//     // if(currentPage && pageSize) {
-//     //     query
-//     //         .skip(pageSize * (currentPage - 1))
-//     //             .limit(pageSize);
-//     // }
-
-//     query.then((documents) => {
-//         queryData = documents;
-//         return Post.countDocuments();
-//         }).then(count => {
-//             res.status(200).json({
-//                 message: 'Fetched posts!',
-//                 posts: queryData,
-//                 count: count
-//         });
-//     }).catch( err => {
-//         res.status(500).json({message: "Failed to fetch posts"});
-//     });
-// });
 
 
-
-//get all posts(Modified)
+//get all posts
 router.get('', (req, res, next) => {
     let query = Post.find();
     let queryData, modifiedPosts;
@@ -194,6 +168,20 @@ router.get('', (req, res, next) => {
                 res.status(500).json({message: "Failed to fetch posts"});
             });
     }
+});
+
+
+//get a single post (by id)
+router.get('/:id', (req, res, next) => {
+    Post.findById(req.params.id).then(post => {
+        if(post) {
+            console.log("Post found");
+            res.status(200).json(post);
+        }
+        else res.status(404).json({message: "Post not Found"});
+    }).catch( err => {
+        res.status(500).json({message: "Failed to fetch post"});
+    });
 });
 
 

@@ -5,7 +5,7 @@
             <mat-card-title>{{ post.title }}</mat-card-title>
             <mat-card-subtitle>Posted by: {{ post.posterUsn }}</mat-card-subtitle>
         </mat-card-header>
-        <img mat-card-image [src]="post.contentPath" [alt]="post.title">
+        <img class="content-img" [src]="post.contentPath" [alt]="post.title">
         <mat-card-content>
             <span>{{post.count.upvotes - post.count.downvotes}} points &middot; {{ post.count.comments }} comments</span>
         </mat-card-content>
@@ -27,4 +27,4 @@
     <mat-divider></mat-divider>
 </div>
 <mat-spinner *ngIf="isLoading"></mat-spinner>
-<p *ngIf="!posts || posts.length === 0 && !isLoading" class="mat-body-1" style="color: white; text-align: center;">No posts added yet</p>
+<p *ngIf="(!posts || posts.length) === 0 && !isLoading" class="mat-body-1" style="color: white; text-align: center;">No posts added yet</p>

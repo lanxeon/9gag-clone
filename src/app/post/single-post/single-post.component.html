@@ -1,0 +1,27 @@
+<mat-card *ngIf="!isLoading">
+    <mat-card-header>
+        <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+        <mat-card-title>{{ post.title }}</mat-card-title>
+        <mat-card-subtitle>Posted by: {{ post.posterUsn }}</mat-card-subtitle>
+    </mat-card-header>
+    <img [src]="post.contentPath" [alt]="post.title" class="content-img">
+    <mat-card-content>
+        <span>{{post.count.upvotes - post.count.downvotes}} points &middot; {{ post.count.comments }} comments</span>
+    </mat-card-content>
+    <mat-card-actions>
+    <button mat-icon-button (click)="onUpvotePressed(post)" [ngClass]="isAuthenticated && post.voteStatus === 'upvoted'? 'clicked' : 'un-clicked'">
+        <mat-icon>thumb_up_alt</mat-icon>
+    </button>
+    <button mat-icon-button (click)="onDownvotePressed(post)"  [ngClass]="isAuthenticated && post.voteStatus === 'downvoted'? 'clicked' : 'un-clicked'">
+        <mat-icon>thumb_down_alt</mat-icon>
+    </button>
+    <a mat-icon-button [routerLink]="['post', post._id]" target="_blank">
+        <mat-icon>comment</mat-icon>
+    </a>
+    <button mat-mini-fab color="warn" (click)="onDelete(post._id)" *ngIf="isAuthenticated && userId === post.posterId">
+        <mat-icon>delete</mat-icon>
+    </button>
+    </mat-card-actions>
+</mat-card>
+<mat-divider></mat-divider>
+<app-create-comment></app-create-comment>
