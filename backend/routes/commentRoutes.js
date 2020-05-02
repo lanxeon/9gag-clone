@@ -2,7 +2,9 @@ const express = require('express');
 
 const auth = require('../middleware/auth');
 const authRequired = require('../middleware/authRequired');
+
 const Comment = require('../models/commentModel');
+const Post = require('../models/postModel');
 const CommentVote = require('../models/commentVoteModel');
 
 const router = express.Router();
@@ -22,19 +24,31 @@ router.post('', auth, authRequired,(req, res, next) => {
         commenterId: req.userData.userId,
         commenterUsername: req.userData.username
     });
+    let jsonBody;
 
     comment.save().then(result => {
-        res.status(201).json({
+        jsonBody = {
             message: "sent the shiz nigga",
             comment: result
-        });
-    }).catch(err => {
+        };
+        return Comment.populate(result, [{path: 'post'}]);
+    })
+    .then(populatedFields => {
+        console.log(populatedFields);
+        const currentCommentCount = populatedFields.post.count.comments;
+        return Post.findOneAndUpdate({_id: req.body.postId}, {"count.comments": currentCommentCount + 1});
+    })
+    .then(result => {
+            res.status(201).json(jsonBody);
+        })
+        .catch(err => {
         res.status(500).json({
             message: "failed nigga",
             error: err
         });
     });
 });
+
 
 
 
