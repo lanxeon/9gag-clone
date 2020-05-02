@@ -26,18 +26,20 @@ export class PostListComponent implements OnInit, OnDestroy {
       this.posts = payload;
     });
 
-    this.authService.getAuthStatusListener().subscribe(isAuth => {
+    this.authSubs = this.authService.getAuthStatusListener().subscribe(isAuth => {
       this.isAuthenticated = isAuth;
     });
   }
   
   ngOnDestroy(): void {
     this.postSubs.unsubscribe();
+    this.authSubs.unsubscribe();
   }
 
 
   posts: Post[];
   private postSubs: Subscription;
+  private authSubs: Subscription;
   isLoading = false;
   isAuthenticated: boolean;
   userId: string;

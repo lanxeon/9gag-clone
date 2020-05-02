@@ -41,6 +41,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
   ngOnDestroy(): void {
     this.commentsSub.unsubscribe();
+    this.authSub.unsubscribe();
   }
 
   commentsSub: Subscription;
@@ -57,10 +58,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentService.addUpvote(comment._id);
       
       if(!comment.voteStatus)
-        {
-          comment.count.upvotes += 1;
-          comment.voteStatus = "upvoted";
-        }
+      {
+        comment.count.upvotes += 1;
+        comment.voteStatus = "upvoted";
+      }
       else if(comment.voteStatus === "upvoted")
       {
         comment.voteStatus = null;
@@ -83,10 +84,10 @@ export class CommentListComponent implements OnInit, OnDestroy {
       this.commentService.addDownvote(comment._id);
 
       if(!comment.voteStatus)
-        {
-          comment.count.downvotes += 1;
-          comment.voteStatus = "downvoted";
-        }
+      {
+        comment.count.downvotes += 1;
+        comment.voteStatus = "downvoted";
+      }
       else if(comment.voteStatus === "downvoted")
       {
         comment.voteStatus = null;

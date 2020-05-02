@@ -38,10 +38,13 @@ router.post('', auth, authRequired,(req, res, next) => {
 
 
 
-//for getting comments of a specific post
+//for getting all the comments of a specific post
 router.get('/:postId', auth, (req, res, next) => 
 {
-    Comment.find({post: req.params.postId}).then(result =>
+    let query = Comment.find({post: req.params.postId});
+    let queryData;
+    
+    query.then(result =>
         {
             res.status(200).json({
                 message: "comments fetched successfully",
@@ -53,6 +56,7 @@ router.get('/:postId', auth, (req, res, next) =>
             });
         });
 });
+
 
 
 //for upvoting a comment
