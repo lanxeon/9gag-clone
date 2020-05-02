@@ -2,17 +2,17 @@
   <button mat-menu-item>Edit</button>
   <button mat-menu-item>Delete</button>
 </mat-menu>
-<mat-list>
+<!-- <mat-list>
     <mat-list-item *ngFor="let comment of comments">
-      <img matListAvatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
-      <div matLine>
-        <span> {{comment.commenterUsername}} </span>
+      <img id="list-img" matListAvatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+      <div matLine class="user-name-tag">
+        <p style="width: fit-content; display: inline-block; margin-bottom: 0.3rem;"> {{comment.commenterUsername}} </p>
         <button mat-icon-button [matMenuTriggerFor]="appMenu" class="right">
           <mat-icon>more_vert</mat-icon>
         </button>
       </div>
       <p matLine>
-        <span> {{comment.content}} </span>
+        <span matLine>{{comment.content}}</span>
       </p>
       <p matLine>
         <button mat-icon-button>
@@ -26,4 +26,30 @@
       </p>
       <mat-divider></mat-divider>
     </mat-list-item>
-  </mat-list>
+  </mat-list> -->
+
+<div class="list" *ngFor="let comment of comments">
+  <mat-card>
+    <mat-card-header>
+      <mat-card-title><p class="mat-h4">{{ comment.commenterUsername }}</p></mat-card-title>
+      <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+      <button mat-icon-button [matMenuTriggerFor]="appMenu" class="right">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <p> {{ comment.content }} </p>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-icon-button>
+        <mat-icon>thumb_up_alt</mat-icon>
+      </button> 
+      <span>{{comment.count.upvotes}}</span>
+      <button mat-icon-button>
+        <mat-icon>thumb_down_alt</mat-icon>
+      </button> 
+      <span>{{comment.count.downvotes}}</span>
+    </mat-card-actions>
+  </mat-card>
+  <mat-divider></mat-divider>
+</div>

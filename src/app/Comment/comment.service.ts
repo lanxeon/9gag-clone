@@ -20,6 +20,7 @@ export class CommentService {
     return this.commentsUpdate.asObservable();
   }
 
+
   addComment = (content: string, postId: string) =>
   {
     let body = {
@@ -27,10 +28,19 @@ export class CommentService {
       postId: postId
     };
 
-    this.http.post<{message: string, comment: Comment}>("http://localhost:3000/comments/create", body)
+    this.http.post<{message: string, comment: Comment}>("http://localhost:3000/comments", body)
     .subscribe(payload => {
       const comment = payload.comment;
       this.comments.push(comment);
+      this.commentsUpdate.next([...this.comments]);
+    });
+  }
+
+
+  getComments = (postId: string) => {
+    this.http.get<{message: string, comments: Comment[]}>("http://localhost:3000/comments/" + postId)
+    .subscribe(payload => {
+      this.comments = payload.comments;
       this.commentsUpdate.next([...this.comments]);
     });
   }

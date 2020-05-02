@@ -13,5 +13,37 @@ mat-list-item {
 
 .right {
     position: absolute;
-    right: 0;
+    right: 1rem;
+    /* transform: translateY(-10%); */
+}
+
+#list-img {
+    transform: translateY(-50%);
+}
+
+.list {
+    margin: 0 auto;
+    width: 90%;
+}
+
+mat-card {
+    width: 100%;
+    margin: 0 auto;
+    background-color: transparent;
+    box-shadow: none!important;
+    /* border: none; */
+}
+
+mat-card-content {
+    margin-left: calc(40px + 1rem);
+    width: calc(100% - 100px);
+    margin-bottom: 0em;
+    transform: translateY(-0.5rem);
+}
+
+mat-card-actions {
+    height: fit-content;
+    transform: translateY(-0.5rem);
+    margin-left: 40px;
+    padding: 0em;
 }

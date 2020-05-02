@@ -97,11 +97,11 @@ export class PostListComponent implements OnInit, OnDestroy {
   }
 
 
-  onCommentPressed = (post: Post) => {
-    if(this.isAuthenticated)
-      post.count.comments += 1;
-    else alert("login first in order to comment");
-  }
+  // onCommentPressed = (post: Post) => {
+  //   if(this.isAuthenticated)
+  //     post.count.comments += 1;
+  //   else alert("login first in order to comment");
+  // }
 
   onDelete = (postId: string) =>
   {
