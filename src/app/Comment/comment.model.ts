@@ -8,5 +8,6 @@ export interface Comment {
     },
     post: string,
     commenterId: string,
-    commenterUsername: string
+    commenterUsername: string,
+    voteStatus?: string
 }

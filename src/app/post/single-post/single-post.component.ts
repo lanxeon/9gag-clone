@@ -37,26 +37,65 @@ export class SinglePostComponent implements OnInit {
   }
 
   post: Post;
-  //   _id: null,
-  //   title: "lol",
-  //   contentPath: "lol",
-
-  // };
   userId: string;
   username: string;
   postId: string;
   isAuthenticated: boolean;
   isLoading:boolean = false;
 
-  onUpvotePressed = (post: Post) => {
+  onUpvotePressed = () => {
+    if(this.isAuthenticated)
+    {
+      this.postService.addUpvote(this.post._id);
+      
+      if(!this.post.voteStatus)
+        {
+          this.post.count.upvotes += 1;
+          this.post.voteStatus = "upvoted";
+        }
+      else if(this.post.voteStatus === "upvoted")
+      {
+        this.post.voteStatus = null;
+        this.post.count.upvotes -= 1;
+      }
+      else
+      {
+        this.post.voteStatus = "upvoted";
+        this.post.count.downvotes -= 1;
+        this.post.count.upvotes += 1;
+      }
+    }
 
+    else alert("you need to be signed up first hoe");
   }
 
-  onDownvotePressed = (post: Post) => {
+  onDownvotePressed = () => {
+    if(this.isAuthenticated)
+    {
+      this.postService.addDownvote(this.post._id);
 
+      if(!this.post.voteStatus)
+        {
+          this.post.count.downvotes += 1;
+          this.post.voteStatus = "downvoted";
+        }
+      else if(this.post.voteStatus === "downvoted")
+      {
+        this.post.voteStatus = null;
+        this.post.count.downvotes -= 1;
+      }
+      else
+      {
+        this.post.voteStatus = "downvoted";
+        this.post.count.upvotes -= 1;
+        this.post.count.downvotes += 1;
+      }
+    }
+
+    else alert("sign up first hoe");
   }
 
-  onDelete = (postId: string) => {
+  onDelete = () => {
 
   }
 

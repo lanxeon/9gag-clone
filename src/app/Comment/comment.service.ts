@@ -45,6 +45,23 @@ export class CommentService {
     });
   }
 
+  addUpvote = (id: string) => 
+  {
+    this.http.post("http://localhost:3000/comments/upvote/" + id, {lol: "nothing"}).subscribe(payload =>
+    {
+      console.log(payload);
+    });
+  }
+
+
+  addDownvote = (id: string) => 
+  {
+    this.http.post("http://localhost:3000/comments/downvote/" + id, {lol: "nothing"}).subscribe(payload =>
+    {
+      console.log(payload);
+    });
+  }
+
 }
 
 

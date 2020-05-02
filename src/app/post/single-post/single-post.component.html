@@ -9,16 +9,16 @@
         <span>{{post.count.upvotes - post.count.downvotes}} points &middot; {{ post.count.comments }} comments</span>
     </mat-card-content>
     <mat-card-actions>
-    <button mat-icon-button (click)="onUpvotePressed(post)" [ngClass]="isAuthenticated && post.voteStatus === 'upvoted'? 'clicked' : 'un-clicked'">
+    <button mat-icon-button (click)="onUpvotePressed()" [ngClass]="isAuthenticated && post.voteStatus === 'upvoted'? 'clicked' : 'un-clicked'">
         <mat-icon>thumb_up_alt</mat-icon>
     </button>
-    <button mat-icon-button (click)="onDownvotePressed(post)"  [ngClass]="isAuthenticated && post.voteStatus === 'downvoted'? 'clicked' : 'un-clicked'">
+    <button mat-icon-button (click)="onDownvotePressed()"  [ngClass]="isAuthenticated && post.voteStatus === 'downvoted'? 'clicked' : 'un-clicked'">
         <mat-icon>thumb_down_alt</mat-icon>
     </button>
     <a mat-icon-button [routerLink]="['post', post._id]" target="_blank">
         <mat-icon>comment</mat-icon>
     </a>
-    <button mat-mini-fab color="warn" (click)="onDelete(post._id)" *ngIf="isAuthenticated && userId === post.posterId">
+    <button mat-mini-fab color="warn" (click)="onDelete()" *ngIf="isAuthenticated && userId === post.posterId">
         <mat-icon>delete</mat-icon>
     </button>
     </mat-card-actions>

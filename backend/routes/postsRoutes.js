@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const auth = require('../middleware/auth');
+const authRequired = require('../middleware/authRequired');
 
 const multer = require('multer');
 const MIME_TYPE = {
@@ -31,60 +32,8 @@ const storage = multer.diskStorage({
 
 
 
-// //Getting a single post (by id)
-// router.get('/:id', (req, res, next) => {
-//     Post.findById(req.params.id).then(post => {
-//         if(post) {
-//             console.log("Post found");
-//             res.status(200).json(post);
-//         }
-//         else res.status(404).json({message: "Post not Found"});
-//     }).catch( err => {
-//         res.status(500).json({message: "Failed to fetch post"});
-//     });
-// });
-
-
-// router.put('/:id', multer({storage: storage}).single("image") ,(req, res, next) => {
-//     const url = req.protocol + "://" + req.get("host");
-//     let imagePath = req.body.imagePath;
-//     if(req.file) 
-//     {
-//         imagePath = url + "/images/" + req.file.filename
-//     }
-//     let post = new Post({
-//         _id: req.params.id,
-//         title: req.body.title,
-//         content: req.body.content,
-//         imagePath: imagePath,
-//         creator: req.userData.userId
-//     });
-//     Post.updateOne({_id: req.params.id, creator: req.userData.userId}, post).then((result) => {
-//         if(result.n > 0)
-//         {
-//             console.log("edit successful");
-//             res.status(200).json({
-//                 message: "successfully edited"
-//             });
-//         }
-//         else
-//         {
-//             console.log("Can't edit")
-//             res.status(401).json({ 
-//                 message: "You are not authorized!"
-//             });   
-//         }
-//     }).catch( err => {
-//         res.status(500).json({message: "Failed to update post"});
-//     });
-// });
-
-
-
-
-
 //Posting a new post 
-router.post('', auth, multer({storage: storage}).single("image") ,(req, res, next) => {
+router.post('', auth, authRequired, multer({storage: storage}).single("image") ,(req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
     console.log(req.body);
     const post = new Post(
@@ -117,7 +66,7 @@ router.post('', auth, multer({storage: storage}).single("image") ,(req, res, nex
 
 
 //get all posts
-router.get('', (req, res, next) => {
+router.get('', auth, (req, res, next) => {
     let query = Post.find();
     let queryData, modifiedPosts;
 
@@ -172,16 +121,43 @@ router.get('', (req, res, next) => {
 
 
 //get a single post (by id)
-router.get('/:id', (req, res, next) => {
-    Post.findById(req.params.id).then(post => {
-        if(post) {
-            console.log("Post found");
-            res.status(200).json(post);
-        }
-        else res.status(404).json({message: "Post not Found"});
-    }).catch( err => {
-        res.status(500).json({message: "Failed to fetch post"});
-    });
+router.get('/:id', auth, (req, res, next) => 
+{
+    let query = Post.findById(req.params.id);
+    let postData;
+
+    if(!req.isAuthenticated)
+    {
+        query.then(post => {
+            if(post) {
+                return res.status(200).json(post);
+            }
+            else return res.status(404).json({message: "Post not Found"});
+        }).catch( err => {
+            return res.status(500).json({message: "Failed to fetch post"});
+        });
+        return;
+    }
+
+    else
+    {
+        query.then(post => {
+            postData = post;
+            return PostVote.find({voter: req.userData.userId, post: req.params.id})
+        }).then(result => {
+            let modifiedPost = postData.toObject();
+            modifiedPost.voteStatus = null;
+            if(result[0])
+                modifiedPost.voteStatus = result[0].type === "upvote" ? "upvoted" : "downvoted";
+            return res.status(200).json(modifiedPost);
+        }).catch(err => {
+            return res.status(500).json({
+                error: err
+            });
+        });
+        return;
+    }
+
 });
 
 
@@ -210,7 +186,7 @@ router.delete('/:id', auth, (req, res, next) => {
 
 
 //for upvoting a post
-router.post('/upvote/:postId', auth, (req, res, next) => {
+router.post('/upvote/:postId', auth, authRequired, (req, res, next) => {
     PostVote.find({ post: req.params.postId, voter: req.userData.userId }).findOne()
         .populate("post").then(result => {
             if(result)
@@ -264,7 +240,7 @@ router.post('/upvote/:postId', auth, (req, res, next) => {
 
 
 //for downvoting a post
-router.post('/downvote/:postId', auth, (req, res, next) => {
+router.post('/downvote/:postId', auth, authRequired, (req, res, next) => {
     PostVote.find({ post: req.params.postId, voter: req.userData.userId }).findOne()
         .populate("post").then(result => {
             if(result)
