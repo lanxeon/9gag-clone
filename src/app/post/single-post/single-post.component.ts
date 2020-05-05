@@ -30,7 +30,6 @@ export class SinglePostComponent implements OnInit {
         .subscribe(payload => {
           this.post = payload;
           this.isLoading = false;
-          console.log(this.post);
         });
       }
     });

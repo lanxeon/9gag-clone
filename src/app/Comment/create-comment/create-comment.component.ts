@@ -33,4 +33,8 @@ export class CreateCommentComponent implements OnInit {
     this.commentInput = "";
   }
 
+  lol = () => {
+    console.log("lol");
+  }
+
 }

@@ -15,9 +15,9 @@
     <button mat-icon-button (click)="onDownvotePressed()"  [ngClass]="isAuthenticated && post.voteStatus === 'downvoted'? 'clicked' : 'un-clicked'">
         <mat-icon>thumb_down_alt</mat-icon>
     </button>
-    <a mat-icon-button [routerLink]="['post', post._id]" target="_blank">
+    <button mat-icon-button>
         <mat-icon>comment</mat-icon>
-    </a>
+    </button>
     <button mat-mini-fab color="warn" (click)="onDelete()" *ngIf="isAuthenticated && userId === post.posterId">
         <mat-icon>delete</mat-icon>
     </button>

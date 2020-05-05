@@ -58,17 +58,54 @@ router.get('/:postId', auth, (req, res, next) =>
     let query = Comment.find({post: req.params.postId});
     let queryData;
     
-    query.then(result =>
-        {
-            res.status(200).json({
-                message: "comments fetched successfully",
-                comments: result
+    if(!req.isAuthenticated)
+    {
+        query.then(result =>
+            {
+                console.log(result);
+                res.status(200).json({
+                    message: "comments fetched successfully",
+                    comments: result
+                });
+            }).catch(err => {
+                res.status(500).json({
+                    error: err
+                });
             });
-        }).catch(err => {
-            res.status(500).json({
-                error: err
-            });
+            return;
+    }
+
+    query.lean().then(result => {
+        queryData = result;
+        // console.log(queryData);
+        let commentIds = queryData.map(comment => comment._id);
+        return CommentVote.find({voter: req.userData.userId, comment: { $in: commentIds }}).lean();
+    })
+    .then(result => {
+        if(result)
+            {
+                // console.log(result);
+                let storedRes = result;
+                storedRes.forEach(obj => {
+                    specComment = queryData.find(comment => comment._id.equals(obj.comment));
+                    console.log(specComment);
+                    if(specComment)
+                        {
+                            index = queryData.indexOf(specComment);
+                            queryData[index].voteStatus = obj.type == 'upvote' ? 'upvoted' : 'downvoted';
+                        }
+                });
+            }
+        res.status(200).json({
+            message: 'comments fetched successfully',
+            comments: queryData
         });
+    }).catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    });
+    return;
 });
 
 
