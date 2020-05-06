@@ -23,7 +23,6 @@ export class CommentListComponent implements OnInit, OnDestroy {
 
     this.commentsSub = this.commentService.getCommentSubs().subscribe(payload => {
       this.comments = payload;
-      console.log(this.comments);
     });
 
     this.authSub = this.authService.getAuthStatusListener()

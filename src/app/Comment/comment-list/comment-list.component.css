@@ -47,3 +47,7 @@ mat-card-actions {
     margin-left: 40px;
     padding: 0em;
 }
+
+.clicked {
+    color: cyan;
+}

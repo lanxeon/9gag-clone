@@ -41,11 +41,11 @@
       <p> {{ comment.content }} </p>
     </mat-card-content>
     <mat-card-actions>
-      <button mat-icon-button (click)="onUpvotePressed(comment)">
+      <button mat-icon-button (click)="onUpvotePressed(comment)" [ngClass]="isAuthenticated && comment.voteStatus === 'upvoted'? 'clicked' : 'un-clicked'" >
         <mat-icon>thumb_up_alt</mat-icon>
       </button> 
       <span>{{comment.count.upvotes}}</span>
-      <button mat-icon-button (click)="onDownvotePressed(comment)">
+      <button mat-icon-button (click)="onDownvotePressed(comment)" [ngClass]="isAuthenticated && comment.voteStatus === 'downvoted'? 'clicked' : 'un-clicked'">
         <mat-icon>thumb_down_alt</mat-icon>
       </button> 
       <span>{{comment.count.downvotes}}</span>

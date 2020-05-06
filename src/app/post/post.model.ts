@@ -10,5 +10,6 @@ export interface Post {
     upvotes: [{upvoter: string}]
     posterId: string,
     posterUsn: string,
-    voteStatus?: string
+    voteStatus?: string,
+    category?: string
 };
