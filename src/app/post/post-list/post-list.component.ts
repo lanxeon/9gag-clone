@@ -1,3 +1,4 @@
+import { ActivatedRoute, ParamMap } from '@angular/router';
 import { AuthService } from './../../auth/auth.service';
 import { Post } from './../post.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -12,19 +13,32 @@ import { PostService } from '../posts.service';
 })
 export class PostListComponent implements OnInit, OnDestroy {
 
-  constructor(private postService: PostService, private authService: AuthService) { }
+  constructor(private postService: PostService, private authService: AuthService, private route: ActivatedRoute) { }
   
   ngOnInit(): void {
 
     this.isAuthenticated = this.authService.getIsAuth();
     this.userId = this.authService.getUserId();
 
-    this.postService.getPosts(this.isAuthenticated, this.userId);
-    this.isLoading = true;
-    this.postSubs = this.postService.getPostsUpdatedSub().subscribe(payload => {
-      this.isLoading = false;
-      this.posts = payload;
+    this.route.paramMap.subscribe((pm: ParamMap) => {
+      if(pm.has('category'))
+      {
+        this.postService.getPostsByCategory(pm.get('category'));
+        this.isLoading = true;
+      }
+
+      else
+      {
+        this.postService.getPosts(this.isAuthenticated, this.userId);
+        this.isLoading = true;
+      }
     });
+
+    this.postSubs = this.postService.getPostsUpdatedSub()
+      .subscribe((payload) => {
+        this.isLoading = false;
+        this.posts = payload;
+      });
 
     this.authSubs = this.authService.getAuthStatusListener().subscribe(isAuth => {
       this.isAuthenticated = isAuth;

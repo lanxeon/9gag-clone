@@ -44,6 +44,15 @@ export class PostService {
   }
 
 
+  getPostsByCategory = (cat: string) => {
+    this.http.get<{message: string, posts: Post[]}>("http://localhost:3000/posts/categories/"+cat)
+      .subscribe(payload => {
+        this.posts = payload.posts;
+        this.postsUpdated.next([...this.posts]);
+      });
+  }
+
+
   getPostById = (id: string) => {
     return this.http.get<Post>("http://localhost:3000/posts/" + id);
   }

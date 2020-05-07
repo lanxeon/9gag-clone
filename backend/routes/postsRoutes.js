@@ -37,7 +37,6 @@ router.post(
   multer({ storage: storage }).single("image"),
   (req, res, next) => {
     const url = req.protocol + "://" + req.get("host");
-    console.log(req.body);
     const post = new Post({
       title: req.body.title,
       contentPath: url + "/images/" + req.file.filename,
@@ -59,7 +58,6 @@ router.post(
         });
       })
       .catch((err) => {
-        console.log(err);
         res.status(500).json({ message: "Post creation failed", error: err });
       });
   }
@@ -178,7 +176,6 @@ router.get('/categories/:category', auth, (req, res, next) => {
         queryData = posts;
         modifiedPosts = [...posts];
         postIds = queryData.map(post => post._id);
-        console.log(postIds);
         return PostVote.find({ voter: req.userData.userId, post: {$in: postIds}}).lean();
       })
       .then((upvotes) => {
@@ -189,7 +186,6 @@ router.get('/categories/:category', auth, (req, res, next) => {
             specPost = queryData.find((post) =>
               post._id.equals(obj.post)
             );
-            console.log(specPost);
             if (specPost) 
             {
               index = queryData.indexOf(specPost);
@@ -199,8 +195,7 @@ router.get('/categories/:category', auth, (req, res, next) => {
         }
         return res.status(200).json({
           message: "Fetched Posts",
-          posts: queryData,
-          modifiedPosts: null
+          posts: queryData
         });
       });
     }
@@ -215,8 +210,7 @@ router.get('/categories/:category', auth, (req, res, next) => {
       .then((count) => {
         res.status(200).json({
           message: "Fetched posts!",
-          posts: queryData,
-          count: count,
+          posts: queryData
         });
       })
       .catch((err) => {
@@ -381,5 +375,6 @@ router.post("/downvote/:postId", auth, authRequired, (req, res, next) => {
         });
     });
 });
+
 
 module.exports = router;
