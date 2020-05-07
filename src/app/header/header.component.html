@@ -1,3 +1,8 @@
+<mat-menu #userMenu="matMenu">
+    <button mat-menu-item>My Profile</button>
+    <button mat-menu-item>Settings</button>
+    <button mat-menu-item (click)="onLogout()">Logout</button>
+</mat-menu>
 <mat-toolbar>
     <ng-content></ng-content>
     <span>
@@ -14,9 +19,10 @@
     <span class = "spacer"></span>
     <ul>
         <li *ngIf="userAuthenticated">
-            <button mat-button>
+            <button mat-button [matMenuTriggerFor]="userMenu">
                 <img src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
                 <span>{{username}}</span>
+                <mat-icon class="kb-arr-down">keyboard_arrow_down</mat-icon>
             </button>
         </li>
         <li *ngIf="userAuthenticated">

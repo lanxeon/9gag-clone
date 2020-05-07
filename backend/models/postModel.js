@@ -10,7 +10,7 @@ const postSchema = mongoose.Schema({
     },
     posterId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
     posterUsn: { type: String, required: true },
-    category: { type: String, required: true }
+    category: { type: String, required: true, default: "funny" }
 });
 
 module.exports = mongoose.model('Post', postSchema);

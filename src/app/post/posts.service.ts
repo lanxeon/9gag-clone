@@ -61,6 +61,7 @@ export class PostService {
   addPost = (title: string, image: File) => {
     let post: FormData = new FormData();
     post.append("title", title);
+    post.append("category", "funny")
     post.append("image", image, title);
     this.http.post<{message: string, post: Post}>("http://localhost:3000/posts", post)
       .subscribe(payload => {
