@@ -31,6 +31,9 @@ import { LoginComponent } from './auth/login/login.component';
 import { SignupComponent } from './auth/signup/signup.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SinglePostComponent } from './post/single-post/single-post.component';
+import { MainNavComponent } from './main-nav/main-nav.component';
+import { LayoutModule } from '@angular/cdk/layout';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -43,7 +46,8 @@ import { SinglePostComponent } from './post/single-post/single-post.component';
     PostListComponent,
     LoginComponent,
     SignupComponent,
-    SinglePostComponent
+    SinglePostComponent,
+    MainNavComponent
   ],
   imports: [
     BrowserModule,
@@ -60,7 +64,9 @@ import { SinglePostComponent } from './post/single-post/single-post.component';
     MatMenuModule,
     FormsModule,
     ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    LayoutModule,
+    MatSidenavModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

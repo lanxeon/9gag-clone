@@ -1,0 +1,36 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer class="sidenav" fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar>Menu</mat-toolbar>
+    <mat-nav-list>
+      <a mat-list-item [routerLink]="['category', 'funny']">Funny</a>
+      <a mat-list-item [routerLink]="['category', 'animal']">Animal</a>
+      <a mat-list-item [routerLink]="['category', 'gaming']">Gaming</a>
+      <a mat-list-item [routerLink]="['category', 'dark']">Dark humor</a>
+      <a mat-list-item [routerLink]="['category', 'animeManga']">Anime and Manga</a>
+      <a mat-list-item [routerLink]="['category', 'wholesome']">Wholesome</a>
+      <a mat-list-item [routerLink]="['category', 'comic']">Comic</a>
+      <a mat-list-item [routerLink]="['category', 'sports']">Sports</a>
+      <a mat-list-item [routerLink]="['category', 'cosplay']">Cosplay</a>
+      <a mat-list-item [routerLink]="['category', 'gif']">GIF</a>
+      <a mat-list-item [routerLink]="['category', 'movies']">Movies</a>
+      <a mat-list-item [routerLink]="['category', 'tvShows']">TV shows</a>
+      <a mat-list-item [routerLink]="['category', 'coronavid']">Coronavirus</a>
+      <a mat-list-item [routerLink]="['category', 'kpop']">K-Pop</a>
+      <a mat-list-item [routerLink]="['category', 'celebrity']">Celebrity</a>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- Add Content Here -->
+    <app-header>
+      <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+        <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+      </button>
+    </app-header>
+    <main>
+      <router-outlet></router-outlet>
+    </main>
+  </mat-sidenav-content>
+</mat-sidenav-container>

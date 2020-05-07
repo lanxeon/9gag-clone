@@ -1,7 +1,8 @@
 mat-card {
-    width: 70%;
+    width: 100%;
     margin: 0 auto;
-    background-color: #1a1a1a;
+    background-color: inherit;
+    box-shadow: none!important;
 }
 
 mat-form-field, textarea {

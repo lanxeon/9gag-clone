@@ -3,3 +3,7 @@ main {
     max-width: 60%;
     min-width: 480px;
 }
+
+app-main-nav {
+    background-color: #0d0d0d;
+}

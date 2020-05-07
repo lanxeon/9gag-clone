@@ -14,7 +14,7 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
   {path: 'post/:id', component: SinglePostComponent},
-  {path: 'category/:category', component: PostListComponent},
+  {path: 'category/:category', component: PostListComponent}
 ];
 
 @NgModule({
