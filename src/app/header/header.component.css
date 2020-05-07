@@ -15,6 +15,21 @@ ul {
     flex: 1 1 auto;
 }
 
+img {
+    height: 40px;
+    width: 40px;
+    position: relative;
+    border-radius: 50%;
+    left: -5px;
+    /* top: 50%;
+    transform: translateX(-50%); */
+}
+
+mat-icon {
+    position: relative;
+    left: -10px;
+}
+
 mat-toolbar {
   position: sticky;
   top: 0;
