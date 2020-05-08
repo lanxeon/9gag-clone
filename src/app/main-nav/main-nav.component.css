@@ -21,7 +21,7 @@
 main {
     margin: 1rem auto;
     /* max-width: 60%; */
-    max-width: 780px;
+    max-width: 768px;
     min-width: 480px;
 }
 
@@ -29,5 +29,6 @@ main {
   main {
     margin: 1rem auto;
     width: 100%;
+    min-width: 240px;
   }
 }

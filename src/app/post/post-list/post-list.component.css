@@ -1,9 +1,7 @@
 mat-card {
-    /* width: 70%; */
     max-width: 640px;
     min-width: 480px;
     margin: 1rem auto;
-    /* background-color: #1a1a1a; */
     background: transparent;
     box-shadow: none!important;
 }
@@ -40,12 +38,30 @@ button,a {
     min-width: 320px;
 }
 
-@media only screen and (max-width: 640px) {
+@media only screen and (max-width: 768px) {
     mat-card {
         box-sizing: border-box!important;
+        padding: 0;
         margin: 1rem auto;
         width: 100%;
+        max-width: 100%;
+        min-width: 100%;
         background: transparent;
         box-shadow: none!important;
+    }
+
+    .content-img {
+        position: relative;
+        max-height: 100%;
+        max-width: 100%;
+    }
+
+    mat-card-actions, mat-card-content, mat-card-header {
+        margin-left: 0.8rem;
+    }
+
+    mat-divider {
+        width: 100%;
+        margin: 0 auto;
     }
 }
