@@ -1,21 +1,32 @@
 <mat-card>
     <mat-spinner *ngIf = "isLoading"></mat-spinner>
     <form (submit) = "onAddPost()" [formGroup]="form" *ngIf = "!isLoading">
-        <mat-form-field [hideRequiredMarker]="true"> 
+        <mat-form-field [hideRequiredMarker]="true" class="title"> 
             <mat-label color="accent">Enter Post Title</mat-label>
-            <textarea matInput  cdkTextareaAutosize rows="1" formControlName="title"  name = "title" type="text" required></textarea>
+            <textarea matInput  cdkTextareaAutosize rows="1" formControlName="title" name="title" type="text" required></textarea>
             <mat-error *ngIf="form.get('title').invalid">Enter Title</mat-error>
         </mat-form-field>
-        <div class="btn-container" *ngIf="!imgPreview || form.get('image').invalid">
-            <button mat-stroked-button (click) = "fileInput.click()" type="button" color="accent">Upload Image</button>
-            <input type="file" #fileInput (change) = "onImagePicked($event)">
+        <div class="img-preview">
+            <div class="btn-container" *ngIf="!imgPreview || form.get('image').invalid">
+                <button mat-stroked-button (click) = "fileInput.click()" type="button" color="accent">Upload Image</button>
+                <input type="file" #fileInput (change) = "onImagePicked($event)">
+            </div>
+            <img [src] = "imgPreview" [alt] = "form.value.title" *ngIf="imgPreview && imgPreview !== '' && form.get('image').valid">
         </div>
-        <div class="img-preview" *ngIf="imgPreview && imgPreview !== '' && form.get('image').valid">
-            <img [src] = "imgPreview" [alt] = "form.value.title">
-        </div>
-        <div class="action-row">
-            <button mat-raised-button color = "accent" type = "submit">Upload Post</button>
-            <button mat-stroked-button color="warn" type="reset" (click)="onReset()">Reset</button>
+        <div class="category">
+            <mat-form-field>
+                <mat-label>Select a category</mat-label>
+                <mat-select formControlName="category">
+                    <mat-option *ngFor="let category of categories" [value]="category">
+                        {{category}}
+                    </mat-option>
+                </mat-select>
+                <mat-error *ngIf="form.get('category').invalid">Lol bruh</mat-error>
+            </mat-form-field>
+            <div class="action-row">
+                <button mat-raised-button color = "accent" type = "submit">Upload Post</button>
+                <button mat-stroked-button color="warn" type="reset" (click)="onReset()">Reset</button>
+            </div>
         </div>
     </form>
 </mat-card>

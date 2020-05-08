@@ -18,6 +18,8 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
+import { MatSelectModule } from '@angular/material/select';
+import { MatSidenavModule } from '@angular/material/sidenav';
 
 //Self defined imports
 import { AppRoutingModule } from './app-routing.module';
@@ -33,7 +35,6 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SinglePostComponent } from './post/single-post/single-post.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatSidenavModule } from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -62,11 +63,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
     MatIconModule,
     MatListModule,
     MatMenuModule,
+    MatSidenavModule,
+    MatSelectModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
-    LayoutModule,
-    MatSidenavModule
+    LayoutModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}

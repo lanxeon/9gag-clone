@@ -17,7 +17,8 @@ export class CreatePostComponent implements OnInit {
   ngOnInit(): void {
 
     this.form = new FormGroup({
-      'title': new FormControl(null, {validators: [Validators.required, Validators.minLength(1)]}),
+      'title': new FormControl(null, {validators: [Validators.required, Validators.minLength(3)]}),
+      'category': new FormControl(null, {validators: [Validators.required]}),
       'image': new FormControl(null, {validators:[Validators.required], asyncValidators:[mimeType]})
     });
 
@@ -26,6 +27,8 @@ export class CreatePostComponent implements OnInit {
   form: FormGroup;
   isLoading: boolean = false;
   imgPreview: string = null;
+  categories: Array<string> = ['Funny', 'Animal', 'Gaming', 'Dark', 'Anime and Manga', 'Wholesome', 'Comic', 'Sports', 'Cosplay',
+                                'GIF', 'Movies', 'T.V. Shows', 'Coronavirus', 'K-pop', 'Celebrity'];
 
 
   
@@ -51,8 +54,7 @@ export class CreatePostComponent implements OnInit {
     if(this.form.invalid)
       return console.log("not valid");
     
-    // this.postService.addPost(this.form.value.title, this.form.value.image);
-    this.postService.addPost(this.form.value.title, this.form.value.image);
+    this.postService.addPost(this.form.value.title, this.form.value.image, this.form.value.category);
   }
 
   onReset = () => {

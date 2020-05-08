@@ -34,16 +34,14 @@ const storage = multer.diskStorage({
 });
 
 //Posting a new post
-router.post(
-  "",
-  auth,
-  authRequired,
-  multer({ storage: storage }).single("image"),
+router.post("", auth, authRequired, multer({ storage: storage }).single("image"),
   (req, res, next) => {
+    console.log(req.file);
     const url = req.protocol + "://" + req.get("host");
     const post = new Post({
       title: req.body.title,
       contentPath: url + "/images/" + req.file.filename,
+      contentType: req.file.mimetype.includes('image') ? 'image' : 'video',
       count: {
         upvotes: 0,
         downvotes: 0,
@@ -51,6 +49,7 @@ router.post(
       },
       posterId: req.userData.userId,
       posterUsn: req.userData.username,
+      category: req.body.category
     });
 
     post
