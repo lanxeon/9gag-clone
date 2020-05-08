@@ -21,17 +21,22 @@ export const mimeType = (
         console.log(header);
         switch (header) 
         {
-          case "89504e47":
+          case "89504e47":   //PNGs
             isValid = true;
             break;
-          case "ffd8ffe0":
+          case "ffd8ffe0"://JPG/JPEGs
           case "ffd8ffe1":
           case "ffd8ffe2":
           case "ffd8ffe3":
           case "ffd8ffe8":
             isValid = true;
             break;
-          case "47494638": 
+          case "47494638":   //GIFs 
+            isValid = true;
+            break;
+          // case "66747970":  //MP4s nope
+          case "1a45dfa3":  //mkv
+          // case "4f676753":  //ogg
             isValid = true;
             break;
           default:

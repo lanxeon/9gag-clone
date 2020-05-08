@@ -9,6 +9,10 @@ const MIME_TYPE = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/jpg": "jpg",
+  "image/gif": "gif",
+  "video/webm": "mkv",
+  "video/x-matroska": "mkv",
+  "video/mp4" : "mp4"
 };
 
 const Post = require("../models/postModel");

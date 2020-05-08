@@ -31,6 +31,12 @@ export class CreatePostComponent implements OnInit {
   
   onImagePicked = (event: Event) => {
     const file = (event.target as HTMLInputElement).files[0];
+    console.log(file);
+    if(file.size > 104857600) //limiting file size to 100mb to prevent browser crashes
+     {
+       alert("file too big nigga");
+       return;
+     }
     this.form.patchValue({'image': file});
     this.form.get('image').updateValueAndValidity();
     
