@@ -4,7 +4,8 @@
         <mat-card-title>{{ post.title }}</mat-card-title>
         <mat-card-subtitle>Posted by: {{ post.posterUsn }}</mat-card-subtitle>
     </mat-card-header>
-    <img [src]="post.contentPath" [alt]="post.title" class="content-img">
+    <img [src]="post.contentPath" [alt]="post.title" class="content-img" *ngIf="post.contentType==='image'">
+    <video class="content-img" [src]="post.contentPath" *ngIf="post.contentType==='video'" controls></video>
     <mat-card-content>
         <span>{{post.count.upvotes - post.count.downvotes}} points &middot; {{ post.count.comments }} comments</span>
     </mat-card-content>
