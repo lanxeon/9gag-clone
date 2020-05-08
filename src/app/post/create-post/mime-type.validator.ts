@@ -13,12 +13,18 @@ export const mimeType = (
     (observer: Observer<{ [key: string]: any }>) => {
       fileReader.addEventListener("loadend", () => {
         const arr = new Uint8Array(fileReader.result as ArrayBuffer).subarray(0, 4);
+        const arr4 = new Uint8Array(fileReader.result as ArrayBuffer).subarray(4, 8);
         let header = "";
+        let offsetFourHeader = "";
         let isValid = false;
+        // console.log(new Uint8Array(fileReader.result as ArrayBuffer).subarray(0, 8).toString());
         for (let i = 0; i < arr.length; i++) {
           header += arr[i].toString(16);
+          offsetFourHeader += arr4[i].toString(16);
         }
-        console.log(header);
+        console.log("Header is " + header);
+        console.log("4 byte offset header is " + offsetFourHeader);
+        
         switch (header) 
         {
           case "89504e47":   //PNGs
@@ -34,7 +40,6 @@ export const mimeType = (
           case "47494638":   //GIFs 
             isValid = true;
             break;
-          // case "66747970":  //MP4s nope
           case "1a45dfa3":  //mkv
           // case "4f676753":  //ogg
             isValid = true;
@@ -43,12 +48,15 @@ export const mimeType = (
             isValid = false; // Or you can use the blob.type as fallback
             break;
         }
+        if(offsetFourHeader === "66747970")
+          isValid = true;
+
         console.log(isValid);
-        if (isValid) {
+        if (isValid) 
           observer.next(null);
-        } else {
+        else 
           observer.next({ invalidMimeType: true });
-        }
+        
         observer.complete();
       });
       fileReader.readAsArrayBuffer(file);
