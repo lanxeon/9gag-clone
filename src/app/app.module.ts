@@ -35,6 +35,8 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { SinglePostComponent } from './post/single-post/single-post.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
+import { UserPostsComponent } from './user/user-posts/user-posts.component';
+import { UserSettingsComponent } from './user/user-settings/user-settings.component';
 
 
 @NgModule({
@@ -48,7 +50,9 @@ import { LayoutModule } from '@angular/cdk/layout';
     LoginComponent,
     SignupComponent,
     SinglePostComponent,
-    MainNavComponent
+    MainNavComponent,
+    UserPostsComponent,
+    UserSettingsComponent
   ],
   imports: [
     BrowserModule,

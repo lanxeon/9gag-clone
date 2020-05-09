@@ -33,6 +33,8 @@ const storage = multer.diskStorage({
   },
 });
 
+
+
 //Posting a new post
 router.post("", auth, authRequired, multer({ storage: storage }).single("image"),
   (req, res, next) => {
@@ -64,6 +66,8 @@ router.post("", auth, authRequired, multer({ storage: storage }).single("image")
       });
   }
 );
+
+
 
 //get all posts
 router.get("", auth, (req, res, next) => {
@@ -120,6 +124,93 @@ router.get("", auth, (req, res, next) => {
   }
 });
 
+
+//get all posts of a specific user
+router.get('/user/:id', auth, async(req, res, next) => {
+  try
+  {
+    const query = Post.find({posterId: req.params.id}).lean();
+    if(req.isAuthenticated)
+    {
+      let posts = await query;
+      let postIds = posts.map(post => post._id);
+
+      let votes = await PostVote.find({voter: req.userData.userId, post: {$in: postIds}}).lean();
+      if(votes)
+      {
+        votes.forEach(vote => {
+          let votedPost = posts.find(post => post._id.equals(vote.post));
+
+          if(votedPost)
+          {
+            let index = posts.indexOf(votedPost);
+            posts[index].voteStatus = vote.type === 'upvote' ? 'upvoted' : 'downvoted';
+          }
+        });
+      }
+
+      return res.status(200).json({
+        message: 'Acquired posts successfully',
+        posts: posts
+      });
+    }
+
+    else
+    {
+      posts = await query;
+      return res.status(200).json({
+        message: 'got the posts without auth',
+        posts: posts
+      });
+    }
+  } catch(err) {
+    res.status(500).json({
+      message: 'Something went wrong',
+      error: err
+    });
+  }
+});
+
+
+//get all posts upvoted by a specific user
+router.get('/user/upvoted/:id', auth, async(req, res, next) => {
+  try
+  {
+    const query = PostVote.find({voter: req.params.id}).populate('post').lean();
+    if(req.isAuthenticated)
+    {
+      let postVotes = await query;
+      let posts = postVotes.map(vote => vote.post);
+      
+      posts.forEach(post => {
+        post.voteStatus = 'upvoted';
+      });
+
+      return res.status(200).json({
+        message: 'Acquired posts successfully',
+        posts: posts
+      });
+    }
+
+    else
+    {
+      postVotes = await query;
+      let posts = postVotes.map(vote => vote.post);
+      return res.status(200).json({
+        message: 'got the posts without auth',
+        posts: posts
+      });
+    }
+  } catch(err) {
+    res.status(500).json({
+      message: 'Something went wrong',
+      error: err
+    });
+  }
+});
+
+
+
 //get a single post (by id)
 router.get("/:id", auth, (req, res, next) => {
   let query = Post.findById(req.params.id);
@@ -164,6 +255,7 @@ router.get("/:id", auth, (req, res, next) => {
     return;
   }
 });
+
 
 
 //getting posts of a specific category
@@ -222,6 +314,7 @@ router.get('/categories/:category', auth, (req, res, next) => {
 });
 
 
+
 //for deleting a post
 router.delete("/:id", auth, (req, res, next) => {
   Post.deleteOne({ _id: req.params.id, posterId: req.userData.userId })
@@ -241,6 +334,8 @@ router.delete("/:id", auth, (req, res, next) => {
       res.status(500).json({ message: "Failed to fetch post" });
     });
 });
+
+
 
 //for upvoting a post
 router.post("/upvote/:postId", auth, authRequired, (req, res, next) => {
@@ -309,6 +404,8 @@ router.post("/upvote/:postId", auth, authRequired, (req, res, next) => {
         });
     });
 });
+
+
 
 //for downvoting a post
 router.post("/downvote/:postId", auth, authRequired, (req, res, next) => {

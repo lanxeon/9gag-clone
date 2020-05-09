@@ -1,4 +1,5 @@
-import { NgModule } from '@angular/core';
+import { UserPostsComponent } from './user/user-posts/user-posts.component';
+import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
 import { CreatePostComponent } from './post/create-post/create-post.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
   {path: 'post/:id', component: SinglePostComponent},
-  {path: 'category/:category', component: PostListComponent}
+  {path: 'category/:category', component: PostListComponent},
+  {path: 'user/:userId', component: UserPostsComponent}
 ];
 
 @NgModule({
