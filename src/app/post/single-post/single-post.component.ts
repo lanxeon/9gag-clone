@@ -2,7 +2,7 @@ import { AuthService } from './../../auth/auth.service';
 import { PostService } from './../posts.service';
 import { Post } from './../post.model';
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
 @Component({
   selector: 'app-single-post',
@@ -11,7 +11,11 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class SinglePostComponent implements OnInit {
 
-  constructor(private postService: PostService, private authService: AuthService, private route: ActivatedRoute) { }
+  constructor(private postService: PostService, 
+    private authService: AuthService, 
+    private route: ActivatedRoute, 
+    private router: Router) 
+    { }
 
   ngOnInit(): void {
 
@@ -95,7 +99,10 @@ export class SinglePostComponent implements OnInit {
   }
 
   onDelete = () => {
-
+    this.postService.deletePost(this.postId).subscribe(payload => 
+      {
+        this.router.navigate(['/']);
+      });
   }
 
 }

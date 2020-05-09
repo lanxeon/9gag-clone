@@ -17,6 +17,8 @@ const MIME_TYPE = {
 
 const Post = require("../models/postModel");
 const PostVote = require("../models/postVoteModel");
+const Comment = require("../models/commentModel");
+const CommentVote = require("../models/commentVoteModel");
 
 //multer config
 const storage = multer.diskStorage({
@@ -181,7 +183,7 @@ router.get('/user/upvoted/:id', auth, async(req, res, next) => {
     {
       let postVotes = await query;
       let posts = postVotes.map(vote => vote.post);
-      
+
       posts.forEach(post => {
         post.voteStatus = 'upvoted';
       });
@@ -316,23 +318,35 @@ router.get('/categories/:category', auth, (req, res, next) => {
 
 
 //for deleting a post
-router.delete("/:id", auth, (req, res, next) => {
-  Post.deleteOne({ _id: req.params.id, posterId: req.userData.userId })
-    .then((result) => {
-      if (result.n > 0) {
-        console.log("deleted on server side!");
-        res.status(200).json({
-          message: "Post deleted successfully",
-        });
-      } else {
-        res.status(401).json({
-          message: "You are not authorized!",
-        });
-      }
-    })
-    .catch((err) => {
-      res.status(500).json({ message: "Failed to fetch post" });
-    });
+router.delete("/:id", auth, async(req, res, next) => {
+  try
+  {
+    let result = await Post.deleteOne({ _id: req.params.id, posterId: req.userData.userId });
+    if (result.n > 0) {
+      console.log("deleted post on server side");
+      let delPostVotes = await PostVote.deleteMany({post: req.params.id});
+      console.log("deleted upvotes of the post");
+      let comments = await Comment.find({post: req.params.id});
+      let commentIds = comments.map(comm => comm._id);
+      let delComments = await Comment.deleteMany({_id: {$in: commentIds}});
+      console.log("deleted comments");
+      let delCommentVotes = await CommentVote.deleteMany({comment: {$in: commentIds}});
+      console.log("deleted comment votes");
+      res.status(200).json({
+        message: "Post deleted successfully",
+      });
+    } else {
+      res.status(401).json({
+        message: "You are not authorized!",
+      });
+    }
+  }
+    catch(err) 
+    {
+      res.status(500).json({ 
+          message: "Failed to fetch post",
+          error: err });
+    }
 });
 
 

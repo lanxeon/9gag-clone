@@ -41,7 +41,7 @@ export const mimeType = (
             isValid = true;
             break;
           case "1a45dfa3":  //mkv
-          // case "4f676753":  //ogg
+          case "4f676753":  //ogg
             isValid = true;
             break;
           default:
