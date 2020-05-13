@@ -7,8 +7,10 @@ services:
     build: frontend # specify the directory of the Dockerfile
     ports:
       - "4200:80" # specify port forewarding
+    image: lanxion/9gag-frontend
   
   express: #name of the second service
     build: backend # specify the directory of the Dockerfile
     ports:
       - "3000:3000" #specify ports forewarding
+    image: lanxion/9gag-backend
