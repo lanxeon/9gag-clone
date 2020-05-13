@@ -1,5 +1,5 @@
-import { AuthService } from './../../auth/auth.service';
-import { CommentService } from './../comment.service';
+import { AuthService } from '../../auth/auth.service';
+import { CommentService } from '../comment.service';
 import { Observable, Subscription } from 'rxjs';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 

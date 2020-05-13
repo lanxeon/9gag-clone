@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 
-import { CommentService } from './../comment.service';
-import { AuthService } from './../../auth/auth.service';
-import { CommentListComponent } from './../comment-list/comment-list.component';
+import { CommentService } from '../comment.service';
+import { AuthService } from '../../auth/auth.service';
+import { CommentListComponent } from '../comment-list/comment-list.component';
 
 @Component({
   selector: 'app-create-comment',

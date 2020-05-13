@@ -21,7 +21,7 @@ mongoose.connect("mongodb+srv://lanxion:Theandre2131@cluster0-e3flj.mongodb.net/
 //body-parser middleware
 app.use(bp.json());
 app.use(bp.urlencoded({ extended: false }));
-app.use('/images', express.static(path.join("backend/images")));
+app.use('/images', express.static(path.join("images")));
 
 
 //For enabling CORS
