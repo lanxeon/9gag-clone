@@ -37,6 +37,8 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { UserPostsComponent } from './user/user-posts/user-posts.component';
 import { UserSettingsComponent } from './user/user-settings/user-settings.component';
+import { ErrorInterceptor } from './interceptors/error.interceptor';
+import { ErrorComponent } from './error/error.component';
 
 
 @NgModule({
@@ -52,7 +54,8 @@ import { UserSettingsComponent } from './user/user-settings/user-settings.compon
     SinglePostComponent,
     MainNavComponent,
     UserPostsComponent,
-    UserSettingsComponent
+    UserSettingsComponent,
+    ErrorComponent
   ],
   imports: [
     BrowserModule,
@@ -69,14 +72,17 @@ import { UserSettingsComponent } from './user/user-settings/user-settings.compon
     MatMenuModule,
     MatSidenavModule,
     MatSelectModule,
+    MatDialogModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
     LayoutModule
   ],
   providers: [
-    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true}
+    {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true},
+    {provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true}
   ],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [ErrorComponent]
 })
 export class AppModule { }
