@@ -1,1 +1,12 @@
+<mat-card>
+    <mat-card-header>
+        <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+        <mat-card-title>{{ username }}</mat-card-title>
+        <mat-card-subtitle><p class="mat-body-1">@{{ username }}</p></mat-card-subtitle>
+        <!-- <mat-card-subtitle>
+            Posted by: <a [routerLink]="['user', post.posterId]">{{ post.posterUsn }}</a> &nbsp;
+            Category: <a [routerLink]="['category', post.category]">{{ post.category }}</a>
+        </mat-card-subtitle> -->
+    </mat-card-header>
+</mat-card>
 <app-post-list></app-post-list>

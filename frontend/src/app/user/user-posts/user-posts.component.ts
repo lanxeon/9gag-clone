@@ -17,7 +17,7 @@ export class UserPostsComponent implements OnInit {
   ngOnInit(): void {
 
     this.isAuthenticated = this.authService.getIsAuth();
-    this.userName = this.authService.getUserName();
+    this.username = this.authService.getUserName();
     this.userId = this.authService.getUserId();
 
     this.route.paramMap.subscribe((pm: ParamMap) =>
@@ -36,7 +36,7 @@ export class UserPostsComponent implements OnInit {
   }
 
   userId: string = null;
-  userName: string = null;
+  username: string = null;
   pageUserId: string = null;
   isAuthenticated: boolean = false;
   isLoading:boolean = true
