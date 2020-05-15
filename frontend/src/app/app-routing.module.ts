@@ -18,7 +18,10 @@ const routes: Routes = [
   {path: 'login', component: LoginComponent, canActivate: [AuthGuard2]},
   {path: 'post/:id', component: SinglePostComponent},
   {path: 'category/:category', component: PostListComponent},
-  {path: 'user/:userId', component: UserPostsComponent}
+  {path: 'user/:userId', redirectTo: 'user/:userId/posts'},
+  {path: 'user/:userId/posts', component: UserPostsComponent},
+  {path: 'user/:userId/upvotes', component: UserPostsComponent},
+  {path: '**', redirectTo: ''}
 ];
 
 @NgModule({

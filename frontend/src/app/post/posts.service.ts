@@ -57,6 +57,22 @@ export class PostService {
     return this.http.get<Post>("http://localhost:3000/posts/" + id);
   }
 
+  getPostsByUserId = (id: string) => {
+    this.http.get<{message: string, posts: Post[]}>("http://localhost:3000/posts/user/" + id)
+    .subscribe(payload => {
+      this.posts = payload.posts;
+      this.postsUpdated.next([...this.posts]);
+    });
+  }
+
+  getUpvotedPostsByUserId = (id: string) => {
+    this.http.get<{message: string, posts: Post[]}>("http://localhost:3000/posts/user/upvoted/" + id)
+    .subscribe(payload => {
+      this.posts = payload.posts;
+      this.postsUpdated.next([...this.posts]);
+    });
+  }
+
 
   addPost = (title: string, image: File, category: string) => {
     let post: FormData = new FormData();

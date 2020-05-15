@@ -1,4 +1,4 @@
-import { ActivatedRoute, ParamMap } from '@angular/router';
+import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from './../../auth/auth.service';
 import { Post } from './../post.model';
 import { Component, OnInit, OnDestroy } from '@angular/core';
@@ -13,7 +13,7 @@ import { PostService } from '../posts.service';
 })
 export class PostListComponent implements OnInit, OnDestroy {
 
-  constructor(private postService: PostService, private authService: AuthService, private route: ActivatedRoute) { }
+  constructor(private postService: PostService, private authService: AuthService, private route: ActivatedRoute, private router: Router) { }
   
   ngOnInit(): void {
 
@@ -25,6 +25,15 @@ export class PostListComponent implements OnInit, OnDestroy {
       {
         this.postService.getPostsByCategory(pm.get('category'));
         this.isLoading = true;
+      }
+
+      else if(pm.has('userId'))
+      {
+        const urlLast = this.router.url.split('/').pop();
+        if(urlLast === 'posts')
+          this.postService.getPostsByUserId(pm.get('userId'));
+        else if(urlLast === 'upvotes')
+          this.postService.getUpvotedPostsByUserId(pm.get('userId'));
       }
 
       else

@@ -100,7 +100,7 @@ router.get("", auth, (req, res, next) => {
         return res.status(200).json({
           message: "Fetched Posts",
           posts: queryData,
-          modifiedPosts: newModifiedPosts,
+          modifiedPosts: newModifiedPosts.reverse(),
         });
       });
     return;
@@ -116,7 +116,7 @@ router.get("", auth, (req, res, next) => {
       .then((count) => {
         res.status(200).json({
           message: "Fetched posts!",
-          posts: queryData,
+          posts: queryData.reverse(),
           count: count,
         });
       })
@@ -153,7 +153,7 @@ router.get('/user/:id', auth, async(req, res, next) => {
 
       return res.status(200).json({
         message: 'Acquired posts successfully',
-        posts: posts
+        posts: posts.reverse()
       });
     }
 
@@ -162,7 +162,7 @@ router.get('/user/:id', auth, async(req, res, next) => {
       posts = await query;
       return res.status(200).json({
         message: 'got the posts without auth',
-        posts: posts
+        posts: posts.reverse()
       });
     }
   } catch(err) {
@@ -190,7 +190,7 @@ router.get('/user/upvoted/:id', auth, async(req, res, next) => {
 
       return res.status(200).json({
         message: 'Acquired posts successfully',
-        posts: posts
+        posts: posts.reverse()
       });
     }
 
@@ -200,7 +200,7 @@ router.get('/user/upvoted/:id', auth, async(req, res, next) => {
       let posts = postVotes.map(vote => vote.post);
       return res.status(200).json({
         message: 'got the posts without auth',
-        posts: posts
+        posts: posts.reverse()
       });
     }
   } catch(err) {
@@ -291,7 +291,7 @@ router.get('/categories/:category', auth, (req, res, next) => {
         }
         return res.status(200).json({
           message: "Fetched Posts",
-          posts: queryData
+          posts: queryData.reverse()
         });
       });
     }
@@ -306,7 +306,7 @@ router.get('/categories/:category', auth, (req, res, next) => {
       .then((count) => {
         res.status(200).json({
           message: "Fetched posts!",
-          posts: queryData
+          posts: queryData.reverse()
         });
       })
       .catch((err) => {
