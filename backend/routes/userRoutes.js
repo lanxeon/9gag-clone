@@ -56,4 +56,26 @@ router.post('/login', (req, res, next) => {
 });
 
 
+//for getting user details
+router.get('/details/:id', async(req, res, next) => {
+    try {
+    const user = await User.findById(req.params.id).lean();
+    const modUser = {
+        _id: user._id,
+        username: user.username,
+        dp: user.dp
+    };
+
+    res.status(200).json(modUser);
+
+    } catch(err) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: err
+        });
+    }
+
+});
+
+
 module.exports = router;

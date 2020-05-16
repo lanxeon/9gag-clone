@@ -38,6 +38,12 @@ export class UserPostsComponent implements OnInit {
             label: 'Upvotes'
           }
         ];
+
+        this.authService.getUserDetails(this.pageUserId)
+        .subscribe(payload => {
+          this.pageUsername = payload.username;
+          this.pageUserDp = payload.dp;
+        });
       }
       else
       {
@@ -49,7 +55,9 @@ export class UserPostsComponent implements OnInit {
 
   userId: string = null;
   username: string = null;
+  pageUsername: string = null;
   pageUserId: string = null;
+  pageUserDp: string = null;
   isAuthenticated: boolean = false;
   isLoading:boolean = true
   navLinks: Array<{path: string, label: string}> = [

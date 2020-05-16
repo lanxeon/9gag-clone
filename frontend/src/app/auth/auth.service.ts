@@ -147,4 +147,8 @@ export class AuthService {
        username: username
      };
   }
+
+  getUserDetails = (id: string) => {
+    return this.http.get<{_id: string, username: string, dp: string}>("http://localhost:3000/user/details/" + id);
+  }
 }

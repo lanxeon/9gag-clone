@@ -1,8 +1,9 @@
 <mat-card>
     <mat-card-header>
-        <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
-        <mat-card-title>{{ username }}</mat-card-title>
-        <mat-card-subtitle><p class="mat-body-1">@{{ username }}</p></mat-card-subtitle>
+        <!-- <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol"> -->
+        <img mat-card-avatar [src]="pageUserDp" alt="lol">
+        <mat-card-title>{{ pageUsername }}</mat-card-title>
+        <mat-card-subtitle><p class="mat-body-1">@{{ pageUsername }}</p></mat-card-subtitle>
     </mat-card-header>
 </mat-card>
 <nav mat-tab-nav-bar>
