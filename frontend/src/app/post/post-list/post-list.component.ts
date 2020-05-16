@@ -91,7 +91,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       }
     }
 
-    else alert("you need to be signed up first hoe");
+    else alert("Please login first");
   }
 
 
@@ -118,7 +118,7 @@ export class PostListComponent implements OnInit, OnDestroy {
       }
     }
 
-    else alert("sign up first hoe");
+    else alert("Please login first");
   }
 
 

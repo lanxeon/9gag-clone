@@ -178,7 +178,7 @@ router.get('/user/:id', auth, async(req, res, next) => {
 router.get('/user/upvoted/:id', auth, async(req, res, next) => {
   try
   {
-    const query = PostVote.find({voter: req.params.id}).populate('post').lean();
+    const query = PostVote.find({voter: req.params.id, type: "upvote"}).populate('post').lean();
     if(req.isAuthenticated)
     {
       let postVotes = await query;
