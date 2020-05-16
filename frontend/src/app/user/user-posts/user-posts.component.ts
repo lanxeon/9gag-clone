@@ -26,6 +26,18 @@ export class UserPostsComponent implements OnInit {
       {
         // this.isLoading = true
         this.pageUserId = pm.get("userId");
+        this.navLinks = [
+          {
+            //path: `user/${this.pageUserId}/posts`,
+            path: `../posts`,
+            label: 'Posts'
+          },
+          {
+            // path: `user/${this.pageUserId}/upvotes`,
+            path: `../upvotes`,
+            label: 'Upvotes'
+          }
+        ];
       }
       else
       {
@@ -40,5 +52,15 @@ export class UserPostsComponent implements OnInit {
   pageUserId: string = null;
   isAuthenticated: boolean = false;
   isLoading:boolean = true
+  navLinks: Array<{path: string, label: string}> = [
+    {
+      path: `user/${this.pageUserId}/posts`,
+      label: 'Posts'
+    },
+    {
+      path: `user/${this.pageUserId}/upvotes`,
+      label: 'Comments'
+    }
+  ];
 
 }

@@ -20,6 +20,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatTabsModule } from '@angular/material/tabs';
 
 //Self defined imports
 import { AppRoutingModule } from './app-routing.module';
@@ -73,6 +74,7 @@ import { ErrorComponent } from './error/error.component';
     MatSidenavModule,
     MatSelectModule,
     MatDialogModule,
+    MatTabsModule,
     FormsModule,
     ReactiveFormsModule,
     HttpClientModule,
