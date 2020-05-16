@@ -1,8 +1,9 @@
 <mat-card *ngIf="!isLoading">
     <mat-card-header>
-        <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+        <!-- <img mat-card-avatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol"> -->
+        <img mat-card-avatar [src]="post.poster.dp" alt="lol">
         <mat-card-title>{{ post.title }}</mat-card-title>
-        <mat-card-subtitle>Posted by: {{ post.posterUsn }}</mat-card-subtitle>
+        <mat-card-subtitle>Posted by: {{ post.poster.username }}</mat-card-subtitle>
     </mat-card-header>
     <img [src]="post.contentPath" [alt]="post.title" class="content-img" *ngIf="post.contentType==='image'">
     <video class="content-img" [src]="post.contentPath" *ngIf="post.contentType==='video'" controls></video>
@@ -19,7 +20,7 @@
     <button mat-icon-button>
         <mat-icon>comment</mat-icon>
     </button>
-    <button mat-mini-fab color="warn" (click)="onDelete()" *ngIf="isAuthenticated && userId === post.posterId">
+    <button mat-mini-fab color="warn" (click)="onDelete()" *ngIf="isAuthenticated && userId === post.poster._id">
         <mat-icon>delete</mat-icon>
     </button>
     </mat-card-actions>

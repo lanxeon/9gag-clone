@@ -9,8 +9,13 @@ export interface Post {
         comments: number
     },
     upvotes: [{upvoter: string}]
-    posterId: string,
-    posterUsn: string,
+    poster: {
+        _id: string,
+        username: string,
+        dp: string
+    },
+    posterId?: string,
+    posterUsn?: string,
     category: string,
     voteStatus?: string
 };

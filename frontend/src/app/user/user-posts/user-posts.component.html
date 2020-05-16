@@ -9,10 +9,10 @@
 <nav mat-tab-nav-bar>
     <a mat-tab-link
        *ngFor="let link of navLinks"
-       [routerLink]="link.path"
+       [routerLink]="link?.path"
        routerLinkActive #rla="routerLinkActive"
        [active]="rla.isActive">
-      {{link.label}}
+      {{link?.label}}
     </a>
   </nav>
 <app-post-list></app-post-list>

@@ -19,6 +19,7 @@ const Post = require("../models/postModel");
 const PostVote = require("../models/postVoteModel");
 const Comment = require("../models/commentModel");
 const CommentVote = require("../models/commentVoteModel");
+const User = require("../models/userModel");
 
 //multer config
 const storage = multer.diskStorage({
@@ -39,8 +40,10 @@ const storage = multer.diskStorage({
 
 //Posting a new post
 router.post("", auth, authRequired, multer({ storage: storage }).single("image"),
-  (req, res, next) => {
+  async(req, res, next) => {
+    try {
     const url = req.protocol + "://" + req.get("host");
+
     const post = new Post({
       title: req.body.title,
       contentPath: url + "/images/" + req.file.filename,
@@ -50,30 +53,25 @@ router.post("", auth, authRequired, multer({ storage: storage }).single("image")
         downvotes: 0,
         comments: 0,
       },
-      posterId: req.userData.userId,
-      posterUsn: req.userData.username,
+      poster: req.userData.userId,
       category: req.body.category
     });
 
-    post
-      .save()
-      .then((result) => {
-        res.status(201).json({
-          message: "Successfully created post",
-          post: result,
-        });
-      })
-      .catch((err) => {
-        res.status(500).json({ message: "Post creation failed", error: err });
+    result = await post.save()
+      res.status(201).json({
+        message: "Successfully created post",
+        post: result,
       });
-  }
-);
+    } catch(err) {
+        res.status(500).json({ message: "Post creation failed", error: err });
+    }
+});
 
 
 
 //get all posts
 router.get("", auth, (req, res, next) => {
-  let query = Post.find();
+  let query = Post.find().populate('poster', '_id username dp');
   let queryData, modifiedPosts;
 
   if (req.query.userId) {
@@ -88,10 +86,12 @@ router.get("", auth, (req, res, next) => {
           newPost = post.toObject();
           newPost.voteStatus = null;
           for (let i = 0; i < upvotes.length; i++) {
-            upvote = upvotes[i].toObject();
+            let upvote = upvotes[i].toObject();
             if (upvote.post.equals(newPost._id)) {
-              if (upvote.type === "upvote") newPost.voteStatus = "upvoted";
-              else newPost.voteStatus = "downvoted";
+              if (upvote.type === "upvote") 
+                newPost.voteStatus = "upvoted";
+              else 
+                newPost.voteStatus = "downvoted";
               break;
             }
           }
@@ -131,7 +131,7 @@ router.get("", auth, (req, res, next) => {
 router.get('/user/:id', auth, async(req, res, next) => {
   try
   {
-    const query = Post.find({posterId: req.params.id}).lean();
+    const query = Post.find({poster: req.params.id}).populate('poster', '_id username dp').lean();
     if(req.isAuthenticated)
     {
       let posts = await query;
@@ -151,6 +151,8 @@ router.get('/user/:id', auth, async(req, res, next) => {
         });
       }
 
+      console.log(posts);
+
       return res.status(200).json({
         message: 'Acquired posts successfully',
         posts: posts.reverse()
@@ -159,7 +161,7 @@ router.get('/user/:id', auth, async(req, res, next) => {
 
     else
     {
-      posts = await query;
+      let posts = await query;
       return res.status(200).json({
         message: 'got the posts without auth',
         posts: posts.reverse()
@@ -182,11 +184,33 @@ router.get('/user/upvoted/:id', auth, async(req, res, next) => {
     if(req.isAuthenticated)
     {
       let postVotes = await query;
+      // let posts = postVotes.map(vote => vote.post.populate('poster', '_id username dp').lean());
       let posts = postVotes.map(vote => vote.post);
 
-      posts.forEach(post => {
+      // let getNewPosts = async() => { 
+      //   return posts.map(async(post) => {
+      //       post.voteStatus = 'upvoted';
+      //       let poster = await User.findById(post.poster).lean();
+      //       post.poster = {
+      //         _id: poster._id,
+      //         username: poster.username,
+      //         dp: poster.dp
+      //       };
+      //       return post;
+      //     });
+      // }
+
+      for(let i = 0; i < posts.length; i++)
+      {
+        let post = posts[i];
         post.voteStatus = 'upvoted';
-      });
+        let poster = await User.findById(post.poster).lean();
+        post.poster = {
+          _id: poster._id,
+          username: poster.username,
+          dp: poster.dp
+        };
+      }
 
       return res.status(200).json({
         message: 'Acquired posts successfully',
@@ -198,6 +222,18 @@ router.get('/user/upvoted/:id', auth, async(req, res, next) => {
     {
       postVotes = await query;
       let posts = postVotes.map(vote => vote.post);
+
+      for(let i = 0; i < posts.length; i++)
+      {
+        let post = posts[i];
+        let poster = await User.findById(post.poster).lean();
+        post.poster = {
+          _id: poster._id,
+          username: poster.username,
+          dp: poster.dp
+        };
+      }
+
       return res.status(200).json({
         message: 'got the posts without auth',
         posts: posts.reverse()
@@ -215,7 +251,7 @@ router.get('/user/upvoted/:id', auth, async(req, res, next) => {
 
 //get a single post (by id)
 router.get("/:id", auth, (req, res, next) => {
-  let query = Post.findById(req.params.id);
+  let query = Post.findById(req.params.id).populate('poster', '_id username dp');
   let postData;
 
   if (!req.isAuthenticated) {
@@ -262,7 +298,7 @@ router.get("/:id", auth, (req, res, next) => {
 
 //getting posts of a specific category
 router.get('/categories/:category', auth, (req, res, next) => {
-  let query = Post.find({category: req.params.category});
+  let query = Post.find({category: req.params.category}).populate('poster', '_id username dp');
   let queryData, modifiedPosts, postIds;
 
   if (req.isAuthenticated) 
@@ -321,7 +357,7 @@ router.get('/categories/:category', auth, (req, res, next) => {
 router.delete("/:id", auth, async(req, res, next) => {
   try
   {
-    let result = await Post.deleteOne({ _id: req.params.id, posterId: req.userData.userId });
+    let result = await Post.deleteOne({ _id: req.params.id, poster: req.userData.userId });
     if (result.n > 0) {
       console.log("deleted post on server side");
       let delPostVotes = await PostVote.deleteMany({post: req.params.id});
