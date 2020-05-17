@@ -13,7 +13,7 @@
             border-radius: 10%;
             flex-shrink: 0;
             object-fit: cover;"> -->
-            9GAG RIPOFF
+            9GAG
         </a>
     </span>
     <span class = "spacer"></span>
@@ -38,7 +38,7 @@
         <li *ngIf="!userAuthenticated">
             <a mat-button routerLink="signup" routerLinkActive="mat-accent">Sign Up</a>
         </li>
-        <li *ngIf="userAuthenticated">
+        <li *ngIf="userAuthenticated" class="logout">
             <button mat-button (click)="onLogout()">Logout</button>
         </li>
         <!-- <li *ngIf="userAuthenticated">
@@ -48,3 +48,8 @@
         </li> -->
     </ul>
 </mat-toolbar>
+
+
+<!-- <button mat-mini-fab class="mob-upload" color="primary">
+    <mat-icon>add</mat-icon>
+</button> -->

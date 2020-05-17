@@ -23,6 +23,11 @@ mat-spinner {
     flex: 1 1 auto;
 }
 
+.sub-spacer {
+    display: inline-block;
+    width: 0.25rem;
+}
+
 button,a {
     margin-right: 1rem;
 }
@@ -43,6 +48,18 @@ a {
     color: white;
 }
 
+.category {
+    display: none;
+    margin-left: 0.5rem;
+    opacity: 110%;
+    padding: 0.5rem;
+    font-size: 0.7rem;
+}
+
+/* wrapper {
+    margin-top: 0.3rem;
+} */
+
 @media only screen and (max-width: 768px) {
     mat-card {
         box-sizing: border-box!important;
@@ -58,15 +75,33 @@ a {
     .content-img {
         position: relative;
         max-height: 100%;
-        max-width: 100%;
+        width: 100%;
     }
 
     mat-card-actions, mat-card-content, mat-card-header {
         margin-left: 0.8rem;
+        font-size: 0.8rem;
+    }
+
+    mat-card-header img {
+        width: 30px;
+        height: 30px;
     }
 
     mat-divider {
         width: 100%;
         margin: 0 auto;
+    }
+
+    .category {
+        display: block;
+    }
+
+    .desk-category {
+        display: none;
+    }
+
+    .sub-spacer {
+        display: none;
     }
 }

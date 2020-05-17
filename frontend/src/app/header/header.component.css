@@ -40,6 +40,17 @@ mat-toolbar {
     left: 1px;
 }
 
+.mob-upload {
+    display: none;
+}
+
+
+/* .example-button-container {
+    display: flex;
+    justify-content: center;
+    width: 120px;
+  } */
+
 @media only screen and (max-width: 600px) { 
     img {
         height: 30px;
@@ -48,4 +59,23 @@ mat-toolbar {
         border-radius: 50%;
         left: -5px;
     }
+
+    button, a {
+        font-size: 0.8rem;
+    }
+
+    .logout {
+        display: none;
+    }
+
+    /* .mob-upload {
+        display: flex;
+        position: absolute;
+        left: 85vw;
+        top: 95vh;
+    }
+
+    .mob-upload mat-icon {
+        left: 33%;
+    } */
 }

@@ -37,4 +37,8 @@ main {
     width: 100%;
     min-width: 240px;
   }
+
+  .sidenav a, button{
+    font-size: 0.85rem;
+  }
 }

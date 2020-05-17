@@ -74,4 +74,21 @@ input[type="file"] {
         background-color: inherit;
         box-shadow: none!important;
     }
+
+    .action-row {
+        flex-direction: column;
+    }
+    
+    .action-row button {
+        margin-bottom: 0.5rem;
+        width: 80%;
+    }
+
+    .img-preview {
+        height: 180px;
+    }
+
+    .category {
+        margin-top: 2rem;
+    }
 }
