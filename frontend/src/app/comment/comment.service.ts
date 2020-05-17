@@ -1,8 +1,13 @@
+// import { environment } from './../../environments/environment.prod';
 import { Observable, Subject } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
 import { Comment } from './comment.model';
+import { environment } from '../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + "/comments/";
+const url = environment.apiUrl;
 
 @Injectable({
   providedIn: 'root'
@@ -28,26 +33,32 @@ export class CommentService {
       postId: postId
     };
 
-    this.http.post<{message: string, comment: Comment}>("http://localhost:3000/comments", body)
+    this.http.post<{message: string, comment: Comment}>(BACKEND_URL, body)
     .subscribe(payload => {
       const comment = payload.comment;
       this.comments.push(comment);
+      this.comments.forEach(comment => {
+        comment.commenter.dp = comment.commenter.dp.replace("http://localhost:3000", url);
+      });
       this.commentsUpdate.next([...this.comments]);
     });
   }
 
 
   getComments = (postId: string) => {
-    this.http.get<{message: string, comments: Comment[]}>("http://localhost:3000/comments/" + postId)
+    this.http.get<{message: string, comments: Comment[]}>(BACKEND_URL + postId)
     .subscribe(payload => {
       this.comments = payload.comments;
+      this.comments.forEach(comment => {
+        comment.commenter.dp = comment.commenter.dp.replace("http://localhost:3000", url);
+      });
       this.commentsUpdate.next([...this.comments]);
     });
   }
 
   addUpvote = (id: string) => 
   {
-    this.http.post("http://localhost:3000/comments/upvote/" + id, {lol: "nothing"}).subscribe(payload =>
+    this.http.post(BACKEND_URL + "upvote/" + id, {lol: "nothing"}).subscribe(payload =>
     {
       console.log(payload);
     });
@@ -56,24 +67,10 @@ export class CommentService {
 
   addDownvote = (id: string) => 
   {
-    this.http.post("http://localhost:3000/comments/downvote/" + id, {lol: "nothing"}).subscribe(payload =>
+    this.http.post(BACKEND_URL + "downvote/" + id, {lol: "nothing"}).subscribe(payload =>
     {
       console.log(payload);
     });
   }
 
 }
-
-
-// const comment:Comment = {
-    //   _id: null,
-    //    content: content,
-    //     count:{
-    //       upvotes: 0,
-    //       downvotes: 0,
-    //       replies: 0
-    //     },
-    //     post: null, 
-    //     commenterId: uid,
-    //     commenterUsername: usn
-    // }

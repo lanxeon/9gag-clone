@@ -1,3 +1,7 @@
+mat-card {
+    background-color: #1a1a1a;
+}
+
 mat-form-field, textarea {
     width: 100%;
 }

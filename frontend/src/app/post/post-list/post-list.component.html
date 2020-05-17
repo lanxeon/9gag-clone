@@ -5,8 +5,8 @@
             <img mat-card-avatar [src]="post.poster.dp" alt="lol">
             <mat-card-title>{{ post.title }}</mat-card-title>
             <mat-card-subtitle>
-                Posted by: <a [routerLink]="['user', post.poster._id]">{{ post.poster.username }}</a> &nbsp;
-                Category: <a [routerLink]="['category', post.category]">{{ post.category }}</a>
+                Posted by: <a [routerLink]="['/user', post.poster._id]">{{ post.poster.username }}</a> &nbsp;
+                Category: <a [routerLink]="['/category', post.category]">{{ post.category }}</a>
             </mat-card-subtitle>
         </mat-card-header>
         <img class="content-img" [src]="post.contentPath" [alt]="post.title" *ngIf="post.contentType==='image'">

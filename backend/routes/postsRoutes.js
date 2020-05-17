@@ -74,12 +74,12 @@ router.get("", auth, (req, res, next) => {
   let query = Post.find().populate('poster', '_id username dp');
   let queryData, modifiedPosts;
 
-  if (req.query.userId) {
+  if (req.isAuthenticated) {
     query
       .then((posts) => {
         queryData = posts;
         modifiedPosts = [...posts];
-        return PostVote.find({ voter: req.query.userId });
+        return PostVote.find({ voter: req.userData.userId });
       })
       .then((upvotes) => {
         newModifiedPosts = modifiedPosts.map((post) => {

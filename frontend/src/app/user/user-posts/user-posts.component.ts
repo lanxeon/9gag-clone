@@ -5,6 +5,12 @@ import { ErrorComponent } from './../../error/error.component';
 import { AuthService } from './../../auth/auth.service';
 import { MatDialog } from '@angular/material/dialog';
 
+import { environment } from '../../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + "/user/";
+const url = environment.apiUrl;
+
+
 @Component({
   selector: 'app-user-posts',
   templateUrl: './user-posts.component.html',
@@ -42,7 +48,7 @@ export class UserPostsComponent implements OnInit {
         this.authService.getUserDetails(this.pageUserId)
         .subscribe(payload => {
           this.pageUsername = payload.username;
-          this.pageUserDp = payload.dp;
+          this.pageUserDp = payload.dp.replace("http://localhost:3000", url);
         });
       }
       else

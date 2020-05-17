@@ -6,6 +6,10 @@ import { Post } from './../post.model';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 
+import { environment } from '../../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl;
+
 @Component({
   selector: 'app-single-post',
   templateUrl: './single-post.component.html',
@@ -36,6 +40,7 @@ export class SinglePostComponent implements OnInit {
         this.postService.getPostById(this.postId)
         .subscribe(payload => {
           this.post = payload;
+          this.post.contentPath.replace("http://localhost:3000", BACKEND_URL);
           this.isLoading = false;
         });
       }

@@ -1,9 +1,14 @@
+// import { environment } from './../../environments/environment.prod';
 import { Subject } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
 import { AuthData } from './auth-data.model';
+import { environment } from '../../environments/environment';
+
+const BACKEND_URL = environment.apiUrl + "/user/";
+const url = environment.apiUrl;
 
 
 @Injectable({
@@ -57,7 +62,7 @@ export class AuthService {
       this.isAuth = true;
       this.userId = authDetails.userId;
       this.username = authDetails.username;
-      this.userDp = authDetails.userDp;
+      this.userDp = authDetails.userDp.replace("localhost:3000", url);
 
       this.timer = setTimeout(() => {
         this.logout();
@@ -73,7 +78,7 @@ export class AuthService {
       username: username,
       password: password
     };
-    this.http.post("http://localhost:3000/user/signup", user)
+    this.http.post(BACKEND_URL + "signup", user)
       .subscribe(payload => {
         console.log(payload);
         this.router.navigate(['/login']);
@@ -88,7 +93,7 @@ export class AuthService {
       username: null,
       password: password
     };
-    this.http.post<{token: string, expiresIn: number, userId: string, username: string, userDp: string}>("http://localhost:3000/user/login", user)
+    this.http.post<{token: string, expiresIn: number, userId: string, username: string, userDp: string}>(BACKEND_URL + "login", user)
       .subscribe(payload => {
         this.authToken = payload.token;
         if(payload.token)
@@ -102,6 +107,8 @@ export class AuthService {
           this.userId = payload.userId;
           this.username = payload.username;
           this.userDp = payload.userDp;
+          if(this.userDp.includes("htttp://localhost:3000"))
+            this.userDp.replace("http://localhost:3000", url);
           this.authStatusListener.next(true);
 
           const now = new Date();
@@ -162,6 +169,6 @@ export class AuthService {
   }
 
   getUserDetails = (id: string) => {
-    return this.http.get<{_id: string, username: string, dp: string}>("http://localhost:3000/user/details/" + id);
+    return this.http.get<{_id: string, username: string, dp: string}>(BACKEND_URL + "details/" + id);
   }
 }
