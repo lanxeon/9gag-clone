@@ -40,7 +40,7 @@ router.post('/login', (req, res, next) => {
         if(!result) {
             return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
         }
-        const token = jwt.sign({ email: userData.email, userId: userData._id, username: userData.username },
+        const token = jwt.sign({ email: userData.email, userId: userData._id, username: userData.username, userDp: userData.dp },
              "8d7043d23c8bf0a9b6ac01253749d34d",
              { expiresIn: "1hr" });
              
@@ -48,7 +48,8 @@ router.post('/login', (req, res, next) => {
             token: token,
             expiresIn: 3600,
             userId: userData._id,
-            username: userData.username
+            username: userData.username,
+            userDp: userData.dp
         });
     }).catch( err => {
         return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });

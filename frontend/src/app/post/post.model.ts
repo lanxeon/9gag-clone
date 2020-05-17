@@ -14,8 +14,6 @@ export interface Post {
         username: string,
         dp: string
     },
-    posterId?: string,
-    posterUsn?: string,
     category: string,
     voteStatus?: string
 };

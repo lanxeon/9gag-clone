@@ -1,3 +1,5 @@
+import { ErrorComponent } from './../../error/error.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from '../../auth/auth.service';
 import { CommentService } from '../comment.service';
 import { Observable, Subscription } from 'rxjs';
@@ -13,7 +15,8 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 })
 export class CommentListComponent implements OnInit, OnDestroy {
 
-  constructor(private commentService: CommentService, private route: ActivatedRoute, private authService: AuthService) { }
+  constructor(private commentService: CommentService, private route: ActivatedRoute, private authService: AuthService, 
+    private dialog: MatDialog) { }
 
   ngOnInit(): void {
 
@@ -75,7 +78,7 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
     }
 
-    else alert("you need to be signed up first hoe");
+    else this.dialog.open(ErrorComponent, {data: {message: "Please log in first to upvote/downvote and comment!"}});
   }
 
   onDownvotePressed = (comment: Comment) => {
@@ -101,7 +104,8 @@ export class CommentListComponent implements OnInit, OnDestroy {
       }
     }
 
-    else alert("sign up first hoe");
+    // else alert("sign up first hoe");
+    else this.dialog.open(ErrorComponent, {data: {message: "Please log in first to upvote/downvote and comment!"}});
   }
 
 }

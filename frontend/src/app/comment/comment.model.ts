@@ -7,7 +7,10 @@ export interface Comment {
         replies: number
     },
     post: string,
-    commenterId: string,
-    commenterUsername: string,
+    commenter: {
+        _id: string,
+        username: string,
+        dp: string
+    },
     voteStatus?: string
 }

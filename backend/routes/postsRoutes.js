@@ -151,7 +151,7 @@ router.get('/user/:id', auth, async(req, res, next) => {
         });
       }
 
-      console.log(posts);
+      // console.log(posts);
 
       return res.status(200).json({
         message: 'Acquired posts successfully',
@@ -354,7 +354,7 @@ router.get('/categories/:category', auth, (req, res, next) => {
 
 
 //for deleting a post
-router.delete("/:id", auth, async(req, res, next) => {
+router.delete("/:id", auth, authRequired, async(req, res, next) => {
   try
   {
     let result = await Post.deleteOne({ _id: req.params.id, poster: req.userData.userId });

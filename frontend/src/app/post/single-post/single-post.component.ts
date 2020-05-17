@@ -1,3 +1,5 @@
+import { ErrorComponent } from './../../error/error.component';
+import { MatDialog } from '@angular/material/dialog';
 import { AuthService } from './../../auth/auth.service';
 import { PostService } from './../posts.service';
 import { Post } from './../post.model';
@@ -14,7 +16,8 @@ export class SinglePostComponent implements OnInit {
   constructor(private postService: PostService, 
     private authService: AuthService, 
     private route: ActivatedRoute, 
-    private router: Router) 
+    private router: Router,
+    private dialog: MatDialog) 
     { }
 
   ngOnInit(): void {
@@ -69,7 +72,7 @@ export class SinglePostComponent implements OnInit {
       }
     }
 
-    else alert("you need to be signed up first hoe");
+    else this.dialog.open(ErrorComponent, {data: {message: "Please log in first to upvote/downvote and comment!"}});
   }
 
   onDownvotePressed = () => {
@@ -95,7 +98,8 @@ export class SinglePostComponent implements OnInit {
       }
     }
 
-    else alert("sign up first hoe");
+    // else alert("sign up first hoe");
+    else this.dialog.open(ErrorComponent, {data: {message: "Please log in first to upvote/downvote and comment!"}});
   }
 
   onDelete = () => {

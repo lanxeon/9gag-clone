@@ -1,6 +1,7 @@
 <mat-list>
     <mat-list-item>
-        <img matListAvatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+        <!-- <img matListAvatar src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol"> -->
+        <img matListAvatar [src]="isAuthenticated ? userDp : 'https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg'" alt="lol">
         <mat-form-field matLine>
             <mat-label matLine color="primary">Enter a comment</mat-label>
             <textarea matLine matInput cdkTextareaAutosize rows="2" [(ngModel)]="commentInput" (click)="lol()"></textarea>

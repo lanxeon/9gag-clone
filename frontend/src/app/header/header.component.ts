@@ -18,6 +18,7 @@ export class HeaderComponent implements OnInit {
     {
       this.username = this.authService.getUserName();
       this.userId = this.authService.getUserId();
+      this.userDp = this.authService.getUserDp();
     }
     this.authListenerSubs = this.authService.getAuthStatusListener()
       .subscribe(val => {
@@ -26,6 +27,7 @@ export class HeaderComponent implements OnInit {
         {
           this.username = this.authService.getUserName();
           this.userId = this.authService.getUserId();
+          this.userDp = this.authService.getUserDp();
         }
       });
   }
@@ -34,6 +36,7 @@ export class HeaderComponent implements OnInit {
   private authListenerSubs: Subscription;
   username: string = null;
   userId: string = null;
+  userDp: string = null;
 
 
   onLogout = () => {

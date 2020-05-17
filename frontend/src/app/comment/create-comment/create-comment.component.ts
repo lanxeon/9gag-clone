@@ -15,8 +15,14 @@ export class CreateCommentComponent implements OnInit {
   constructor(private authService: AuthService, private commentService: CommentService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.userId = this.authService.getUserId();
-    this.username = this.authService.getUserName();
+
+    this.isAuthenticated = this.authService.getIsAuth();
+    if(this.isAuthenticated)
+    {
+      this.userId = this.authService.getUserId();
+      this.username = this.authService.getUserName();
+      this.userDp = this.authService.getUserDp();
+    }
 
     this.route.paramMap.subscribe((paramMap: ParamMap) => {
       this.postId = paramMap.get("id");
@@ -25,7 +31,9 @@ export class CreateCommentComponent implements OnInit {
 
   userId: string;
   username: string;
+  userDp: string;
   postId: string;
+  isAuthenticated: boolean = false;
   commentInput: string = "";
 
   onAddComment = () => {

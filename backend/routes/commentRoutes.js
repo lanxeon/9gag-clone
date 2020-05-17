@@ -19,8 +19,7 @@ router.post("", auth, authRequired, (req, res, next) => {
       replies: 0,
     },
     post: req.body.postId,
-    commenterId: req.userData.userId,
-    commenterUsername: req.userData.username,
+    commenter: req.userData.userId
   });
   let jsonBody;
 
@@ -34,7 +33,7 @@ router.post("", auth, authRequired, (req, res, next) => {
       return Comment.populate(result, [{ path: "post" }]);
     })
     .then((populatedFields) => {
-      console.log(populatedFields);
+      // console.log(populatedFields);
       const currentCommentCount = populatedFields.post.count.comments;
       return Post.findOneAndUpdate(
         { _id: req.body.postId },
@@ -54,13 +53,13 @@ router.post("", auth, authRequired, (req, res, next) => {
 
 //for getting all the comments of a specific post
 router.get("/:postId", auth, (req, res, next) => {
-  let query = Comment.find({ post: req.params.postId });
+  let query = Comment.find({ post: req.params.postId }).populate('commenter', '_id username dp');
   let queryData;
 
   if (!req.isAuthenticated) {
     query
       .then((result) => {
-        console.log(result);
+        // console.log(result);
         res.status(200).json({
           message: "comments fetched successfully",
           comments: result,
@@ -91,7 +90,7 @@ router.get("/:postId", auth, (req, res, next) => {
           specComment = queryData.find((comment) =>
             comment._id.equals(obj.comment)
           );
-          console.log(specComment);
+          // console.log(specComment);
           if (specComment) {
             index = queryData.indexOf(specComment);
             queryData[index].voteStatus =

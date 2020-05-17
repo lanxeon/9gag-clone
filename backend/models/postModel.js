@@ -10,8 +10,6 @@ const postSchema = mongoose.Schema({
         comments: { type: Number, required: true },
     },
     poster: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
-    posterId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    posterUsn: {type: String },
     category: { type: String, required: true, default: "Funny" }
 });
 

@@ -20,7 +20,8 @@
     <ul>
         <li *ngIf="userAuthenticated">
             <button mat-button [matMenuTriggerFor]="userMenu">
-                <img src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol">
+                <img [src]="userDp" alt="lol">
+                <!-- <img src="https://moonvillageassociation.org/wp-content/uploads/2018/06/default-profile-picture1.jpg" alt="lol"> -->
                 <span>{{username}}</span>
                 <mat-icon class="kb-arr-down">keyboard_arrow_down</mat-icon>
             </button>

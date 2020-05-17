@@ -8,8 +8,7 @@ const commentSchema = mongoose.Schema({
         replies: { type: Number, required: true },
     },
     post: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "Post"},
-    commenterId: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" },
-    commenterUsername: { type: String, required: true }
+    commenter: { type: mongoose.Schema.Types.ObjectId, required: true, ref: "User" }
 });
 
 module.exports = mongoose.model('Comment', commentSchema);
