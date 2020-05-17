@@ -3,6 +3,8 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const User = require('../models/userModel');
+const auth = require('../middleware/auth');
+const authRequired = require('../middleware/authRequired');
 
 const router = express.Router();
 
@@ -28,18 +30,32 @@ router.post('/signup', (req, res, next) => {
 
 
 //for logging in
-router.post('/login', (req, res, next) => {
+router.post('/login', async(req, res, next) => {
+    try{
     let userData;
-    User.findOne( { email: req.body.email } ).then(user => {
+    let user = await User.findOne({ email: req.body.email });
         if(!user) {
             return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
         }
+
         userData = user;
-        return bcrypt.compare(req.body.password, user.password);
-    }).then(result => {
-        if(!result) {
-            return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
+
+        if(req.query.pass === 'no')
+        {
+            let result = await bcrypt.compare(req.body.password, user.password);
+
+            if(!result) 
+                return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
         }
+
+        else if(req.query.pass === 'yes')
+        {
+            let result = await User.findOne({password: req.body.password});
+
+            if(!result)
+                return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
+        }
+
         const token = jwt.sign({ email: userData.email, userId: userData._id, username: userData.username, userDp: userData.dp },
              "8d7043d23c8bf0a9b6ac01253749d34d",
              { expiresIn: "1hr" });
@@ -51,13 +67,14 @@ router.post('/login', (req, res, next) => {
             username: userData.username,
             userDp: userData.dp
         });
-    }).catch( err => {
+    }
+    catch(err) {
         return res.status(401).json({ message: "Incorrect email and/or password! Please try again." });
-    });
+    }
 });
 
 
-//for getting user details
+//for getting user details partially for other users to view
 router.get('/details/:id', async(req, res, next) => {
     try {
     const user = await User.findById(req.params.id).lean();
@@ -76,6 +93,88 @@ router.get('/details/:id', async(req, res, next) => {
         });
     }
 
+});
+
+
+//for getting all user details(except password) for user to view their own profile
+router.get('/settings/:id', async(req, res, next) => {
+    try {
+    const user = await User.findById(req.params.id).lean();
+    const modUser = {
+        _id: user._id,
+        username: user.username,
+        email: user.email,
+        dp: user.dp
+    };
+
+    res.status(200).json(modUser);
+
+    } catch(err) {
+        res.status(500).json({
+            message: "Something went wrong",
+            error: err
+        });
+    }    
+});
+
+
+//editting username
+router.put('/username', auth, authRequired, async(req, res, next) => {
+    try
+    {
+        if(req.body.id === req.userData.userId)
+        {
+            let user = await User.findOneAndUpdate({_id: req.body.id}, {username: req.body.username});
+            console.log(user);
+            if(user)
+            {  
+                let payload = {
+                    username: user.username,
+                    email: user.email,
+                    password: user.password
+                };
+                console.log(payload);
+
+                return res.status(200).json(payload);
+            }
+        }
+        else
+            res.status(401).json({message: 'Nice try'});
+    }
+    catch(err)
+    {
+        res.status(500).json({error: err, message: 'Could not edit username'});
+    }
+});
+
+
+//editting email
+router.put('/email', auth, authRequired, async(req, res, next) => {
+    try
+    {
+        if(req.body.id === userData.userId)
+        {
+            let user = await User.findOneAndUpdate({_id: req.body.id}, {email: req.body.email});
+            if(user.n > 0)
+            {  
+                let payload = {
+                    username: user.username,
+                    email: user.email,
+                    password: user.password
+                };
+
+                return res.status(200).json(payload);
+            }
+            else
+                return res.status(401).json({message: 'Unauthorized'});
+        }
+        else
+            res.status(401).json({message: 'Nice try'});
+    }
+    catch(err)
+    {
+        res.status(500).json({error: err, message: 'Could not edit email'});
+    }
 });
 
 

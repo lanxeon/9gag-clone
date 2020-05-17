@@ -1,3 +1,4 @@
+import { UserSettingsComponent } from './user/user-settings/user-settings.component';
 import { NgModule, Component } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -14,6 +15,7 @@ import { AuthGuard } from './auth/auth.guard';
 const routes: Routes = [
   {path: '', component: PostListComponent},
   {path: 'create', component: CreatePostComponent, canActivate: [AuthGuard]},
+  {path: 'settings', component: UserSettingsComponent, canActivate: [AuthGuard]},
   {path: 'signup', component: SignupComponent, canActivate: [AuthGuard2]},
   {path: 'login', component: LoginComponent, canActivate: [AuthGuard2]},
   {path: 'post/:id', component: SinglePostComponent},

@@ -9,7 +9,7 @@
         <div class="img-preview">
             <div class="btn-container" *ngIf="!imgPreview || form.get('image').invalid">
                 <button mat-stroked-button (click) = "fileInput.click()" type="button" color="accent">Upload Image</button>
-                <input type="file" #fileInput (change) = "onImagePicked($event)">
+                <input type="file" #fileInput (change)="onImagePicked($event)">
             </div>
             <img [src] = "imgPreview" [alt] = "form.value.title" *ngIf="imgPreview && imgPreview !== '' && form.get('image').valid">
         </div>

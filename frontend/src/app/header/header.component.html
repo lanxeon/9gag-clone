@@ -1,6 +1,6 @@
 <mat-menu #userMenu="matMenu">
     <a mat-menu-item [routerLink]="['user', userId ? userId : {}]">My Profile</a>
-    <button mat-menu-item>Settings</button>
+    <a mat-menu-item routerLink='settings'>Settings</a>
     <button mat-menu-item (click)="onLogout()">Logout</button>
 </mat-menu>
 <mat-toolbar>

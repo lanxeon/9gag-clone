@@ -1,7 +1,7 @@
 import { ActivatedRoute, ParamMap, Router } from '@angular/router';
 import { AuthService } from './../../auth/auth.service';
 import { Post } from './../post.model';
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild, ViewChildren, ElementRef, AfterViewInit } from '@angular/core';
 import { Subscription } from 'rxjs';
 
 import { PostService } from '../posts.service';
@@ -11,10 +11,13 @@ import { PostService } from '../posts.service';
   templateUrl: './post-list.component.html',
   styleUrls: ['./post-list.component.css']
 })
-export class PostListComponent implements OnInit, OnDestroy {
+export class PostListComponent implements OnInit, OnDestroy, AfterViewInit {
 
   constructor(private postService: PostService, private authService: AuthService, private route: ActivatedRoute, private router: Router) { }
   
+  // @ViewChildren('video') vid:any;
+
+
   ngOnInit(): void {
 
     this.isAuthenticated = this.authService.getIsAuth();
@@ -53,7 +56,15 @@ export class PostListComponent implements OnInit, OnDestroy {
       this.isAuthenticated = isAuth;
     });
   }
+
+
+  ngAfterViewInit(): void {
+    // this.vid.toArray().forEach(vid => {
+    //   vid.nativeElement.volume = 0.5;
+    // });
+  }
   
+
   ngOnDestroy(): void {
     this.postSubs.unsubscribe();
     this.authSubs.unsubscribe();

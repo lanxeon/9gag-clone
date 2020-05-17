@@ -1,1 +1,37 @@
-<p>user-settings works!</p>
+
+<mat-spinner *ngIf="isLoading"></mat-spinner>
+
+<div class="wrapper" *ngIf="!isLoading">
+    <div class="account-header">
+        <span>Account</span>
+    </div>
+    <div class="dp-container">
+        <div class="dp-wrapper">
+            <img [src]="userDp" alt="username" class="dp">
+        </div>
+        <div class="img-right">
+            <input type="file" class="hidden-input" #file (change)="onImagePicked($event)">
+            <button mat-mini-fab (click)="file.click()">
+                <mat-icon>edit</mat-icon>
+            </button>
+        </div> 
+    </div>
+    <div class="form-field">
+        <mat-form-field>
+            <mat-label>Username</mat-label>
+            <input type="text" matInput [(ngModel)]="formUsername">
+        </mat-form-field>
+        <button mat-mini-fab (click)="onUsernameEdited()" [disabled]="username == formUsername">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+    <div class="form-field">
+        <mat-form-field>
+            <mat-label>E-mail</mat-label>
+            <input type="email" matInput [(ngModel)]="formEmail">
+        </mat-form-field>
+        <button mat-mini-fab (click)="onEmailEdited()" [disabled]="userEmail == formEmail">
+            <mat-icon>edit</mat-icon>
+        </button>
+    </div>
+</div>

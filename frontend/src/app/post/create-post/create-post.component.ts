@@ -37,7 +37,7 @@ export class CreatePostComponent implements OnInit {
     console.log(file);
     if(file.size > 104857600) //limiting file size to 100mb to prevent browser crashes
      {
-       alert("file too big nigga");
+       alert("file too big");
        return;
      }
     this.form.patchValue({'image': file});

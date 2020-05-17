@@ -87,13 +87,14 @@ export class AuthService {
       });
   }
 
-  loginUser = (email: string, password: string) => {
+  loginUser = (email: string, password: string, cancelNav: boolean=false) => {
     const user: AuthData = {
       email: email,
       username: null,
       password: password
     };
-    this.http.post<{token: string, expiresIn: number, userId: string, username: string, userDp: string}>(BACKEND_URL + "login", user)
+    const reqParam = `?pass=${cancelNav ? 'yes' : 'no' }`;
+    this.http.post<{token: string, expiresIn: number, userId: string, username: string, userDp: string}>(BACKEND_URL + "login" + reqParam, user)
       .subscribe(payload => {
         this.authToken = payload.token;
         if(payload.token)
@@ -115,14 +116,17 @@ export class AuthService {
           const expiryDate = new Date( now.getTime() + (expiryDuration * 1000) );
           this.saveAuthData(this.authToken, expiryDate, this.userId, this.username, this.userDp);
 
-          this.router.navigate(['/']);
+          if(cancelNav)
+            this.router.navigate(['/settings']);
+          else
+            this.router.navigate(['/']);
         }
       }, err => {
         this.authStatusListener.next(false);
       });
   }
 
-  logout = () => {
+  logout = (cancelNav:boolean = false) => {
     this.authToken = null;
     this.isAuth = false;
     this.userId = null;
@@ -131,7 +135,8 @@ export class AuthService {
     this.authStatusListener.next(false);
     clearTimeout(this.timer);
     this.clearAuthData();
-    this.router.navigate(['/']);
+    if(!cancelNav)
+      this.router.navigate(['/']);
   }
 
   private saveAuthData = (token: string, expirationDate: Date, userId: string, username: string, userDp: string) => {
@@ -170,5 +175,32 @@ export class AuthService {
 
   getUserDetails = (id: string) => {
     return this.http.get<{_id: string, username: string, dp: string}>(BACKEND_URL + "details/" + id);
+  }
+
+  getFullUserDetails = (id: string) => {
+    return this.http.get<{
+      _id: string, 
+      username: string,
+      email: string,
+      dp: string
+    }>(BACKEND_URL + "settings/" + id);
+  }
+
+  editUsername = (id: string, username: string) => {
+    this.http.put<{username: string, email: string, password: string}>(BACKEND_URL + "username", { id: id, username: username })
+      .subscribe(payload => {
+        console.log(payload);
+        this.logout(true);
+        this.loginUser(payload.email, payload.password, true);
+      });
+  }
+
+  editEmail = (id: string, email: string) => {
+    this.http.put<{username: string, email: string, password: string}>(BACKEND_URL + "email", { id: id, email: email })
+      .subscribe(payload => {
+        console.log(payload);
+        this.logout(true);
+        this.loginUser(payload.email, payload.password, true);
+      });
   }
 }

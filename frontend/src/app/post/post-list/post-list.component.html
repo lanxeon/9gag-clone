@@ -14,7 +14,7 @@
             </mat-card-subtitle>
         </mat-card-header>
         <img class="content-img" [src]="post.contentPath" [alt]="post.title" *ngIf="post.contentType==='image'">
-        <video class="content-img" [src]="post.contentPath" *ngIf="post.contentType==='video'" controls></video>
+        <video class="content-img" [src]="post.contentPath" *ngIf="post.contentType==='video'" controls #video></video>
         <mat-card-content>
             <span>{{post.count.upvotes - post.count.downvotes}} points &middot; {{ post.count.comments }} comments</span>
         </mat-card-content>
