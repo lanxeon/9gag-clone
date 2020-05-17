@@ -125,11 +125,10 @@ router.put('/username', auth, authRequired, async(req, res, next) => {
         if(req.body.id === req.userData.userId)
         {
             let user = await User.findOneAndUpdate({_id: req.body.id}, {username: req.body.username});
-            console.log(user);
             if(user)
             {  
                 let payload = {
-                    username: user.username,
+                    username: req.body.email,
                     email: user.email,
                     password: user.password
                 };
@@ -143,7 +142,7 @@ router.put('/username', auth, authRequired, async(req, res, next) => {
     }
     catch(err)
     {
-        res.status(500).json({error: err, message: 'Could not edit username'});
+        res.status(500).json({error: err, message: 'Username Taken! Please try another one'});
     }
 });
 
@@ -152,14 +151,14 @@ router.put('/username', auth, authRequired, async(req, res, next) => {
 router.put('/email', auth, authRequired, async(req, res, next) => {
     try
     {
-        if(req.body.id === userData.userId)
+        if(req.body.id === req.userData.userId)
         {
             let user = await User.findOneAndUpdate({_id: req.body.id}, {email: req.body.email});
-            if(user.n > 0)
+            if(user)
             {  
                 let payload = {
                     username: user.username,
-                    email: user.email,
+                    email: req.body.email,
                     password: user.password
                 };
 
@@ -173,7 +172,7 @@ router.put('/email', auth, authRequired, async(req, res, next) => {
     }
     catch(err)
     {
-        res.status(500).json({error: err, message: 'Could not edit email'});
+        res.status(500).json({error: err, message: 'Email taken! Please try another one'});
     }
 });
 

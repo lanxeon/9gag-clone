@@ -72,7 +72,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   }
 
   onEmailEdited = () => {
-
+    this.authservice.editEmail(this.userId, this.formEmail);
+    this.userEmail = this.formEmail;
   }
 
 }

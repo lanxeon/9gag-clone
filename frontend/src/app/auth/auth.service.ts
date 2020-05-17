@@ -80,7 +80,6 @@ export class AuthService {
     };
     this.http.post(BACKEND_URL + "signup", user)
       .subscribe(payload => {
-        console.log(payload);
         this.router.navigate(['/login']);
       }, err => {
         this.authStatusListener.next(false);
@@ -198,7 +197,6 @@ export class AuthService {
   editEmail = (id: string, email: string) => {
     this.http.put<{username: string, email: string, password: string}>(BACKEND_URL + "email", { id: id, email: email })
       .subscribe(payload => {
-        console.log(payload);
         this.logout(true);
         this.loginUser(payload.email, payload.password, true);
       });

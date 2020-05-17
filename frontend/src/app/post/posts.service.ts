@@ -36,7 +36,6 @@ export class PostService {
       httpRequest.subscribe(payload => {
         this.posts = [...payload.posts];
         this.updatePostAndDpUrls();
-        console.log(this.posts);
         this.postsUpdated.next([...this.posts]);
       });
     }
@@ -48,7 +47,6 @@ export class PostService {
       .subscribe(payload => {
         this.posts = [...payload.modifiedPosts];
         this.updatePostAndDpUrls();
-        console.log(this.posts);
         this.postsUpdated.next([...this.posts]);
       });
     }
@@ -126,7 +124,6 @@ export class PostService {
 
   updatePostAndDpUrls = () => {
     this.posts.forEach(post => {
-      console.log("replacing contentPath and dp values");
       post.contentPath = post.contentPath.replace("http://localhost:3000", url);
       post.poster.dp = post.poster.dp.replace("http://localhost:3000", url);
     });
