@@ -62,7 +62,7 @@ export class AuthService {
       this.isAuth = true;
       this.userId = authDetails.userId;
       this.username = authDetails.username;
-      this.userDp = authDetails.userDp.replace("localhost:3000", url);
+      this.userDp = authDetails.userDp.replace("http://localhost:3000", url);
 
       this.timer = setTimeout(() => {
         this.logout();
@@ -92,8 +92,8 @@ export class AuthService {
       username: null,
       password: password
     };
-    const reqParam = `?pass=${cancelNav ? 'yes' : 'no' }`;
-    this.http.post<{token: string, expiresIn: number, userId: string, username: string, userDp: string}>(BACKEND_URL + "login" + reqParam, user)
+    // const reqParam = `?pass=${cancelNav ? 'yes' : 'no' }`;
+    this.http.post<{token: string, expiresIn: number, userId: string, username: string, userDp: string}>(BACKEND_URL + "login", user)
       .subscribe(payload => {
         this.authToken = payload.token;
         if(payload.token)
@@ -107,8 +107,8 @@ export class AuthService {
           this.userId = payload.userId;
           this.username = payload.username;
           this.userDp = payload.userDp;
-          if(this.userDp.includes("htttp://localhost:3000"))
-            this.userDp.replace("http://localhost:3000", url);
+          if(this.userDp.includes("http://localhost:3000"))
+            this.userDp = this.userDp.replace("http://localhost:3000", url);
           this.authStatusListener.next(true);
 
           const now = new Date();
@@ -189,16 +189,17 @@ export class AuthService {
     this.http.put<{username: string, email: string, password: string}>(BACKEND_URL + "username", { id: id, username: username })
       .subscribe(payload => {
         console.log(payload);
-        this.logout(true);
-        this.loginUser(payload.email, payload.password, true);
+        localStorage.setItem("username", payload.username);
+        this.username = payload.username;
+        this.authStatusListener.next(true);
       });
   }
 
   editEmail = (id: string, email: string) => {
     this.http.put<{username: string, email: string, password: string}>(BACKEND_URL + "email", { id: id, email: email })
       .subscribe(payload => {
-        this.logout(true);
-        this.loginUser(payload.email, payload.password, true);
+        console.log(payload);
+        this.authStatusListener.next(true);
       });
   }
 }

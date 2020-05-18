@@ -27,7 +27,7 @@ router.post("", auth, authRequired, (req, res, next) => {
     .save()
     .then((result) => {
       jsonBody = {
-        message: "sent the shiz nigga",
+        message: "Comment Posted Successfully ",
         comment: result,
       };
       return Comment.populate(result, [{ path: "post" }]);
@@ -45,8 +45,8 @@ router.post("", auth, authRequired, (req, res, next) => {
     })
     .catch((err) => {
       res.status(500).json({
-        message: "failed nigga",
-        error: err,
+        message: "Posting Comment Failed",
+        error: err
       });
     });
 });

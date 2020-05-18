@@ -32,8 +32,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
       if(isAuth)
       {
         this.userId = this.formId = this.authservice.getUserId();
-        // this.dialog.open(ErrorComponent, {data: {message: "You have been signed out!"}});
-        // this.router.navigate(['/']);
+        this.username = this.formUsername = this.authservice.getUserName();
+        this.userDp = this.formDp = this.authservice.getUserDp();
       }
     });
   }
@@ -68,12 +68,10 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   onUsernameEdited = () => {
     this.authservice.editUsername(this.userId, this.formUsername);
-    this.username = this.formUsername;
   }
 
   onEmailEdited = () => {
     this.authservice.editEmail(this.userId, this.formEmail);
-    this.userEmail = this.formEmail;
   }
 
 }
