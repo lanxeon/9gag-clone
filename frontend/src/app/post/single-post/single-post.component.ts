@@ -41,6 +41,7 @@ export class SinglePostComponent implements OnInit {
         .subscribe(payload => {
           this.post = payload;
           this.post.contentPath = this.post.contentPath.replace("http://localhost:3000", BACKEND_URL);
+          this.post.poster.dp = this.post.poster.dp.replace("http://localhost:3000", BACKEND_URL);
           this.isLoading = false;
         });
       }
