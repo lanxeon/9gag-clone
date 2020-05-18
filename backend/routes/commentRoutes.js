@@ -28,7 +28,7 @@ router.post("", auth, authRequired, (req, res, next) => {
     .then((result) => {
       jsonBody = {
         message: "Comment Posted Successfully ",
-        comment: result,
+        comment: result
       };
       return Comment.populate(result, [{ path: "post" }]);
     })

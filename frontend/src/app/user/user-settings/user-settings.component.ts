@@ -1,3 +1,4 @@
+import { mimeType } from './../../post/create-post/mime-type.validator';
 import { Router } from '@angular/router';
 import { ErrorComponent } from './../../error/error.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -15,6 +16,8 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   constructor(private authservice: AuthService, private dialog: MatDialog, private router: Router) { }
   
   ngOnInit(): void {
+
+    this.editImage = false;
     this.userId = this.authservice.getUserId();
     this.formId = this.userId;
     
@@ -44,7 +47,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
 
   authStatus: Subscription;
-  edit: boolean = false;
+  editImage: boolean = false;
   userId: string;
   username: string;
   userEmail: string;
@@ -54,16 +57,91 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   formUsername: string;
   formEmail: string;
   formDp: string;
+  imgPreview: string = null;
+  file: File = null; 
 
   onImagePicked = (event: Event) => {
     const file = (event.target as HTMLInputElement).files[0];
-    console.log(file);  
+    const frArray = new FileReader();
+    const frUrl = new FileReader();
 
-    const fr = new FileReader();
-    fr.onload = () => {
-      //  = <string>fr.result;
+    if(file.size > 1048576)
+    {
+      this.dialog.open(ErrorComponent, {data: {message: "File size limit is 10mb! Cannot exceed that"}});
+      this.editImage = false;
+      this.imgPreview = null;
+      this.file = null;
+      return;
     }
-    fr.readAsDataURL(file);
+
+    const MIME_TYPES:Array<string> = [
+      "image/png",
+      "image/jpeg",
+      "image/jpg",
+      "image/gif"
+    ];
+
+    
+    frArray.onload = () => {
+      if(MIME_TYPES.includes(file.type))
+      {
+        const arr = new Uint8Array(frArray.result as ArrayBuffer).subarray(0, 4);
+        let header = "";
+        let isValid = false;
+        for (let i = 0; i < arr.length; i++) {
+          header += arr[i].toString(16);
+        }
+        console.log("Header is " + header);
+        
+        switch (header) 
+        {
+          case "89504e47":   //PNGs
+            isValid = true;
+            break;
+          case "ffd8ffe0"://JPG/JPEGs
+          case "ffd8ffe1":
+          case "ffd8ffe2":
+          case "ffd8ffe3":
+          case "ffd8ffe8":
+            isValid = true;
+            break;
+          case "47494638":   //GIFs 
+            isValid = true;
+            break;
+          default:
+            isValid = false; // Or you can use the blob.type as fallback
+            break;
+        }
+
+        if(isValid)
+        {
+          frUrl.onload = () => {
+            this.imgPreview = (frUrl.result as string);
+            this.editImage = true
+            this.file = file;
+          }
+          frUrl.readAsDataURL(file);
+        }
+        //If someone attempts MIME spoofing
+        else {
+          this.dialog.open(ErrorComponent, {data: {message: "Not a valid file type! You cannot spoof the file type!"}});
+          this.editImage = false;
+          this.imgPreview = null;
+          this.file = null;
+          return;
+        }
+      }
+
+      //If MIME type doesn't match
+      else {
+        this.dialog.open(ErrorComponent, {data: {message: "Not a valid file type! Only png, jpg's and GIF's accepted"}});
+        this.editImage = false;
+        this.imgPreview = null;
+        this.file = null;
+      }
+    }
+
+    frArray.readAsArrayBuffer(file);
   }
 
   onUsernameEdited = () => {
@@ -72,6 +150,16 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
 
   onEmailEdited = () => {
     this.authservice.editEmail(this.userId, this.formEmail);
+  }
+
+  onDpEdited = () => {
+    this.authservice.editDp(this.userId, this.file);
+  }
+
+  onDpEditCancelled = () => {
+    this.editImage = false;
+    this.imgPreview = null;
+    this.file = null;
   }
 
 }

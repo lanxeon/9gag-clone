@@ -186,7 +186,7 @@ export class AuthService {
   }
 
   editUsername = (id: string, username: string) => {
-    this.http.put<{username: string, email: string, password: string}>(BACKEND_URL + "username", { id: id, username: username })
+    this.http.put<{username: string}>(BACKEND_URL + "username", { id: id, username: username })
       .subscribe(payload => {
         console.log(payload);
         localStorage.setItem("username", payload.username);
@@ -196,10 +196,24 @@ export class AuthService {
   }
 
   editEmail = (id: string, email: string) => {
-    this.http.put<{username: string, email: string, password: string}>(BACKEND_URL + "email", { id: id, email: email })
+    this.http.put<{email: string}>(BACKEND_URL + "email", { id: id, email: email })
       .subscribe(payload => {
         console.log(payload);
         this.authStatusListener.next(true);
       });
+  }
+
+  editDp = (id: string, file: File) => {
+
+    let form = new FormData();
+    form.append("id", id);
+    form.append("image", file, id);
+
+    this.http.put<{dp: string}>(BACKEND_URL + "dp", form)
+    .subscribe(payload => {
+      this.userDp = payload.dp.replace("http://localhost:3000", url);
+      localStorage.setItem("userDp", this.userDp);
+      this.authStatusListener.next(true);
+    });
   }
 }

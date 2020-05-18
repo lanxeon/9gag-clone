@@ -9,12 +9,25 @@
         <div class="dp-wrapper">
             <img [src]="userDp" alt="username" class="dp">
         </div>
-        <div class="img-right">
+        <div class="img-right" [style.display]="editImage ? 'none' : 'flex'">
             <input type="file" class="hidden-input" #file (change)="onImagePicked($event)">
             <button mat-mini-fab (click)="file.click()">
                 <mat-icon>edit</mat-icon>
             </button>
         </div> 
+        <div *ngIf="editImage" class="img-upload-wrapper">
+            <div class="img-preview-wrapper">
+                <img [src]="imgPreview" alt="Image Preview">
+            </div>
+            <div class="btns">
+                <button mat-raised-button color="accent" (click)="onDpEdited()">
+                    Upload
+                </button>
+                <button mat-stroked-button color="warn" (click)="onDpEditCancelled(); file.value=''">
+                    Cancel
+                </button>
+            </div>
+        </div>
     </div>
     <div class="form-field">
         <mat-form-field>

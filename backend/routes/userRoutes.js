@@ -203,7 +203,25 @@ router.put('/email', auth, authRequired, async(req, res, next) => {
 //for editting dp of a user
 router.put("/dp", auth, authRequired, multer({ storage: storage }).single("image"),
 async(req, res, next) => {
+    try
+    {
+        const url = req.protocol + "://" + req.get("host");
+        
+        let user = await User.findOneAndUpdate({_id: req.userData.userId}, {dp: url + "/images/" + req.file.filename}, {new: true});
 
+        if(user)
+            res.status(200).json({dp: user.dp});
+        else
+            res.status(401).json({message: "Could not upload image"});
+
+    }
+    catch(err)
+    {
+        res.json(500).json({
+            message: "Could not upload image",
+            error: err
+        });
+    }
 
 })
 

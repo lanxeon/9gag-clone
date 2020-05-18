@@ -78,3 +78,35 @@ input[type="file"] {
     width: 70%;
     margin: auto;
 }
+
+.img-upload-wrapper {
+    height: 100px;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.img-preview-wrapper {
+    position: relative;
+    width: 80px;
+    height: 80px;
+}
+
+.img-preview-wrapper > img {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+}
+
+.btns {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100px;
+}
+
+.btns button {
+    margin-bottom: 1rem;
+}

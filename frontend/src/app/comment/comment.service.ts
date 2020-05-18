@@ -37,10 +37,11 @@ export class CommentService {
     .subscribe(payload => {
       const comment = payload.comment;
       this.comments.push(comment);
-      this.comments.forEach(comment => {
-        comment.commenter.dp = comment.commenter.dp.replace("http://localhost:3000", url);
-      });
-      this.commentsUpdate.next([...this.comments]);
+      // this.comments.forEach(comment => {
+      //   comment.commenter.dp = comment.commenter.dp.replace("http://localhost:3000", url);
+      // });
+      // this.commentsUpdate.next([...this.comments]);
+      location.reload();
     });
   }
 
