@@ -51,7 +51,7 @@ a {
 .category {
     display: none;
     margin-left: 0.5rem;
-    opacity: 110%;
+    /* opacity: 110%; */
     padding: 0.5rem;
     font-size: 0.7rem;
 }
@@ -94,7 +94,7 @@ a {
     }
 
     .category {
-        display: block;
+        display: inline;
     }
 
     .desk-category {

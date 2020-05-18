@@ -184,39 +184,74 @@ router.get('/user/upvoted/:id', auth, async(req, res, next) => {
     const query = PostVote.find({voter: req.params.id, type: "upvote"}).populate('post').lean();
     if(req.isAuthenticated)
     {
-      let postVotes = await query;
-      // let posts = postVotes.map(vote => vote.post.populate('poster', '_id username dp').lean());
-      let posts = postVotes.map(vote => vote.post);
-
-      // let getNewPosts = async() => { 
-      //   return posts.map(async(post) => {
-      //       post.voteStatus = 'upvoted';
-      //       let poster = await User.findById(post.poster).lean();
-      //       post.poster = {
-      //         _id: poster._id,
-      //         username: poster.username,
-      //         dp: poster.dp
-      //       };
-      //       return post;
-      //     });
-      // }
-
-      for(let i = 0; i < posts.length; i++)
+      if(req.params.id == req.userData.userId)
       {
-        let post = posts[i];
-        post.voteStatus = 'upvoted';
-        let poster = await User.findById(post.poster).lean();
-        post.poster = {
-          _id: poster._id,
-          username: poster.username,
-          dp: poster.dp
-        };
+        let postVotes = await query;
+        // let posts = postVotes.map(vote => vote.post.populate('poster', '_id username dp').lean());
+        let posts = postVotes.map(vote => vote.post);
+
+        // let getNewPosts = async() => { 
+        //   return posts.map(async(post) => {
+        //       post.voteStatus = 'upvoted';
+        //       let poster = await User.findById(post.poster).lean();
+        //       post.poster = {
+        //         _id: poster._id,
+        //         username: poster.username,
+        //         dp: poster.dp
+        //       };
+        //       return post;
+        //     });
+        // }
+
+        for(let i = 0; i < posts.length; i++)
+        {
+          let post = posts[i];
+          post.voteStatus = 'upvoted';
+          let poster = await User.findById(post.poster).lean();
+          post.poster = {
+            _id: poster._id,
+            username: poster.username,
+            dp: poster.dp
+          };
+        }
+
+        return res.status(200).json({
+          message: 'Acquired posts successfully',
+          posts: posts.reverse()
+        });
       }
 
-      return res.status(200).json({
-        message: 'Acquired posts successfully',
-        posts: posts.reverse()
-      });
+      else {
+        let postVotes = await query;
+        let userPostVotes = await PostVote.find({voter: req.userData.userId}).populate('post').lean();
+
+        let posts = postVotes.map(vote => vote.post);
+        
+        userPostVotes.forEach(upv => {
+          for(let i = 0; i < posts.length; i++)
+          {
+            let post = posts[i];
+            if(upv.post._id.equals(post._id))
+              post.voteStatus = upv.type == 'upvote' ? 'upvoted' : 'downvoted';
+          }
+        });
+
+        for(let i = 0; i < posts.length; i++)
+        {
+          let post = posts[i];
+          let poster = await User.findById(post.poster).lean();
+          post.poster = {
+            _id: poster._id,
+            username: poster.username,
+            dp: poster.dp
+          };
+        }
+
+        return res.status(200).json({
+          message: 'Acquired posts successfully',
+          posts: posts.reverse()
+        });
+      }
     }
 
     else
