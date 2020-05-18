@@ -91,7 +91,7 @@ export class PostService {
     post.append("title", title);
     post.append("category", category);
     post.append("image", image, title);
-    this.http.post<{message: string, post: Post}>("http://localhost:3000/posts", post)
+    this.http.post<{message: string, post: Post}>(BACKEND_URL, post)
       .subscribe(payload => {
         this.router.navigate(['/']);
       });

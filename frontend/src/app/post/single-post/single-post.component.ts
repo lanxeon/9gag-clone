@@ -40,7 +40,7 @@ export class SinglePostComponent implements OnInit {
         this.postService.getPostById(this.postId)
         .subscribe(payload => {
           this.post = payload;
-          this.post.contentPath.replace("http://localhost:3000", BACKEND_URL);
+          this.post.contentPath = this.post.contentPath.replace("http://localhost:3000", BACKEND_URL);
           this.isLoading = false;
         });
       }
