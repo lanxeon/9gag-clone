@@ -43,6 +43,7 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
         this.username = this.formUsername = this.authservice.getUserName();
         this.userDp = this.formDp = this.authservice.getUserDp();
         this.isLoading = false;
+        location.reload();
       }
     });
   }
