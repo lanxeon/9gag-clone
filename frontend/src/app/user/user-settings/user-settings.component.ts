@@ -6,6 +6,10 @@ import { Observable, Subscription } from 'rxjs';
 import { AuthService } from './../../auth/auth.service';
 import { Component, OnInit, OnDestroy } from '@angular/core';
 
+import { environment } from '../../../environments/environment';
+
+const url = environment.apiUrl;
+
 @Component({
   selector: 'app-user-settings',
   templateUrl: './user-settings.component.html',
@@ -25,18 +29,20 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     this.authservice.getFullUserDetails(this.userId)
     .subscribe(payload => {
       this.username = this.formUsername = payload.username;
-      this.userDp = this.formDp = payload.dp;
+      this.userDp = this.formDp = payload.dp.replace("http://localhost:3000", url);
       this.userEmail = this.formEmail = payload.email;
       this.isLoading = false;
     });
     
     this.authStatus = this.authservice.getAuthStatusListener()
     .subscribe(isAuth => {
+      this.isLoading = true;
       if(isAuth)
       {
         this.userId = this.formId = this.authservice.getUserId();
         this.username = this.formUsername = this.authservice.getUserName();
         this.userDp = this.formDp = this.authservice.getUserDp();
+        this.isLoading = false;
       }
     });
   }
@@ -59,13 +65,14 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
   formDp: string;
   imgPreview: string = null;
   file: File = null; 
+  editUsername: boolean = false;
 
   onImagePicked = (event: Event) => {
     const file = (event.target as HTMLInputElement).files[0];
     const frArray = new FileReader();
     const frUrl = new FileReader();
 
-    if(file.size > 1048576)
+    if(file.size > 10485760)
     {
       this.dialog.open(ErrorComponent, {data: {message: "File size limit is 10mb! Cannot exceed that"}});
       this.editImage = false;
@@ -160,6 +167,29 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     this.editImage = false;
     this.imgPreview = null;
     this.file = null;
+  }
+
+  checkUsernameValid = () => {
+    const pattern = /[^a-z|A-Z|0-9|_]/;
+    if(this.formUsername === this.username)
+    {
+      this.editUsername = false;
+      console.log("Equality checking: " + this.editUsername);
+    }
+    else if(this.formUsername.length > 16)
+      {
+      this.editUsername = false;
+      console.log("Length checking: " + this.editUsername);
+    }
+    else if(pattern.test(this.formUsername))
+      {
+      this.editUsername = false;
+      console.log("Pattern checking: " + this.editUsername);
+    }
+    else 
+      this.editUsername = true;
+
+    console.log(this.editUsername);
   }
 
 }

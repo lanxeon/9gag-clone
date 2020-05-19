@@ -40,6 +40,7 @@ import { UserPostsComponent } from './user/user-posts/user-posts.component';
 import { UserSettingsComponent } from './user/user-settings/user-settings.component';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { ErrorComponent } from './error/error.component';
+// import { UsernameDirective } from './directives/username.directive';
 
 
 @NgModule({
@@ -57,6 +58,7 @@ import { ErrorComponent } from './error/error.component';
     UserPostsComponent,
     UserSettingsComponent,
     ErrorComponent
+    // UsernameDirective
   ],
   imports: [
     BrowserModule,
