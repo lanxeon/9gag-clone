@@ -11,7 +11,10 @@
                 <button mat-stroked-button (click) = "fileInput.click()" type="button" color="accent">Upload Image</button>
                 <input type="file" #fileInput (change)="onImagePicked($event)">
             </div>
-            <img [src] = "imgPreview" [alt] = "form.value.title" *ngIf="imgPreview && imgPreview !== '' && form.get('image').valid">
+            <img [src] = "imgPreview" [alt] = "form.value.title" 
+            *ngIf="imgPreview && imgPreview !== '' && form.get('image').valid && form.get('image').value.type.includes('image')">
+            <video [src] = "imgPreview" muted controls 
+            *ngIf="imgPreview && imgPreview !== '' && form.get('image').valid && form.get('image').value.type.includes('video')"></video>
         </div>
         <div class="category">
             <mat-form-field>
