@@ -9,6 +9,7 @@ const MIME_TYPE = {
   "image/png": "png",
   "image/jpeg": "jpg",
   "image/jpg": "jpg",
+  "image/webp": "jpg",
   "image/gif": "gif",
   "video/webm": "mkv",
   "video/x-matroska": "mkv",
@@ -31,7 +32,8 @@ const storage = multer.diskStorage({
     cb(null, "images");
   },
   filename: (req, file, cb) => {
-    const name = file.originalname.toLowerCase().split(" ").join("-");
+    var pattern = /[`!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/g;
+    const name = file.originalname.replace(pattern, " ").toLowerCase().split(" ").join("-");
     const extension = MIME_TYPE[file.mimetype];
     cb(null, name + "-" + Date.now() + "." + extension);
   }
