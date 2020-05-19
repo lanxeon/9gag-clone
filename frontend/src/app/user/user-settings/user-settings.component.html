@@ -32,7 +32,7 @@
     <div class="form-field">
         <mat-form-field>
             <mat-label>Username</mat-label>
-            <input type="text" matInput [(ngModel)]="formUsername" maxlength="16" pattern="[a-zA-Z0-9_]*" #usn (input)="checkUsernameValid()">
+            <input type="text" matInput [(ngModel)]="formUsername" minlength="3" maxlength="16" pattern="[a-zA-Z0-9_]*" #usn (input)="checkUsernameValid()">
         </mat-form-field>
         <button mat-mini-fab (click)="onUsernameEdited()" [disabled]="!editUsername">
             <mat-icon>edit</mat-icon>

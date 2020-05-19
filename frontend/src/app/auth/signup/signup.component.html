@@ -8,10 +8,11 @@
         </mat-form-field>
         <mat-form-field [hideRequiredMarker]="true">
             <mat-label>Enter Username</mat-label>
-            <input matInput ngModel type="text" name="username"  required #username="ngModel" maxlength="16" pattern="[a-zA-Z0-9_]*">
+            <input matInput ngModel type="text" name="username"  required #username="ngModel" maxlength="16" pattern="[a-zA-Z0-9_]*" minlength="3">
             <mat-error *ngIf="username.errors?.required && username.dirty">Enter a username</mat-error>
             <!-- <mat-error *ngIf="username.errors?.maxlength && username.touched">Maximum length: 12 characters</mat-error> -->
             <mat-error *ngIf="username.errors?.pattern && username.touched">Cannot include special characters (!@*/\|&lt;&gt;&amp;) or spaces</mat-error>
+            <mat-error *ngIf="username.errors?.minlength && username.dirty">The username must contain at least 3 characters</mat-error>
         </mat-form-field>
         <mat-form-field [hideRequiredMarker]="true">
             <mat-label>Enter Password</mat-label>

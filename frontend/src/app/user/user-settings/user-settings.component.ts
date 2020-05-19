@@ -179,7 +179,12 @@ export class UserSettingsComponent implements OnInit, OnDestroy {
     else if(this.formUsername.length > 16)
       {
       this.editUsername = false;
-      console.log("Length checking: " + this.editUsername);
+      console.log("Max Length checking: " + this.editUsername);
+    }
+    else if(this.formUsername.length < 3)
+      {
+      this.editUsername = false;
+      console.log("Min Length checking: " + this.editUsername);
     }
     else if(pattern.test(this.formUsername))
       {
